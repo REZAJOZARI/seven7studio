@@ -1,2158 +1,492 @@
-```html
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+export default {
 
-<title>Seven7Studio | عکاسی و فیلمبرداری</title>
+  async fetch(request, env) {
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+    /*
+    ==========================================
+    CORS
+    ==========================================
+    */
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+    const corsHeaders = {
 
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    -webkit-tap-highlight-color:transparent;
-}
+      "Access-Control-Allow-Origin": "*",
 
-html{
-    scroll-behavior:smooth;
-}
+      "Access-Control-Allow-Methods":
+        "GET, POST, OPTIONS",
 
-body{
-    font-family:'Vazirmatn',sans-serif;
-    background:#090909;
-    color:#fff;
-    min-height:100vh;
-}
+      "Access-Control-Allow-Headers":
+        "Content-Type",
 
-button,
-input,
-select,
-textarea{
-    font-family:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-.app{
-    max-width:520px;
-    margin:auto;
-    min-height:100vh;
-    background:#090909;
-    overflow:hidden;
-}
-
-/* ================= HEADER ================= */
-
-.header{
-    padding:24px 20px 18px;
-    border-bottom:1px solid rgba(255,255,255,.08);
-    position:sticky;
-    top:0;
-    z-index:50;
-    background:rgba(9,9,9,.94);
-    backdrop-filter:blur(18px);
-}
-
-.brand{
-    text-align:center;
-}
-
-.brand-name{
-    font-family:Arial,sans-serif;
-    letter-spacing:5px;
-    font-size:20px;
-    font-weight:500;
-}
-
-.brand-line{
-    width:35px;
-    height:1px;
-    background:#c9a96a;
-    margin:9px auto;
-}
-
-.brand-sub{
-    font-size:9px;
-    letter-spacing:2px;
-    color:#aaa;
-    direction:ltr;
-}
-
-.manager{
-    font-size:10px;
-    color:#777;
-    margin-top:7px;
-}
-
-/* ================= HERO ================= */
-
-.hero{
-    padding:48px 22px 40px;
-    text-align:center;
-    border-bottom:1px solid rgba(255,255,255,.07);
-}
-
-.hero-small{
-    color:#c9a96a;
-    font-size:9px;
-    letter-spacing:2px;
-    direction:ltr;
-    margin-bottom:12px;
-}
-
-.hero h1{
-    font-size:28px;
-    font-weight:500;
-    line-height:1.7;
-}
-
-.hero h1 span{
-    color:#c9a96a;
-}
-
-.hero p{
-    color:#888;
-    font-size:11px;
-    line-height:2;
-    margin:12px auto 24px;
-    max-width:350px;
-}
-
-.hero-buttons{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-
-.hero-btn{
-    border-radius:12px;
-    padding:13px 8px;
-    font-size:10px;
-    border:1px solid rgba(201,169,106,.4);
-    background:#c9a96a;
-    color:#111;
-    font-weight:600;
-}
-
-.hero-btn.secondary{
-    background:transparent;
-    color:#c9a96a;
-}
-
-/* ================= SECTION ================= */
-
-.section{
-    padding:40px 18px;
-    border-bottom:1px solid rgba(255,255,255,.06);
-}
-
-.section-head{
-    text-align:center;
-    margin-bottom:25px;
-}
-
-.section-head span{
-    display:block;
-    color:#c9a96a;
-    font-size:9px;
-    letter-spacing:2px;
-    direction:ltr;
-    margin-bottom:8px;
-}
-
-.section-head h2{
-    font-size:21px;
-    font-weight:500;
-}
-
-.section-head p{
-    color:#777;
-    font-size:10px;
-    margin-top:7px;
-}
-
-/* ================= CATEGORY ================= */
-
-.category{
-    margin-bottom:30px;
-}
-
-.category-title{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-bottom:15px;
-}
-
-.category-icon{
-    width:42px;
-    height:42px;
-    border:1px solid rgba(201,169,106,.35);
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:18px;
-}
-
-.category-title h3{
-    font-size:16px;
-    font-weight:500;
-}
-
-.category-title p{
-    color:#666;
-    font-size:8px;
-    margin-top:3px;
-}
-
-/* ================= PACKAGE ================= */
-
-.package{
-    border:1px solid rgba(255,255,255,.09);
-    border-radius:18px;
-    background:linear-gradient(
-        145deg,
-        rgba(255,255,255,.035),
-        rgba(255,255,255,.01)
-    );
-    margin-bottom:12px;
-    overflow:hidden;
-}
-
-.package-top{
-    padding:18px;
-}
-
-.package-name{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:8px;
-}
-
-.package-name h4{
-    font-size:15px;
-    font-weight:500;
-}
-
-.badge{
-    font-size:7px;
-    color:#c9a96a;
-    border:1px solid rgba(201,169,106,.3);
-    padding:4px 8px;
-    border-radius:20px;
-}
-
-.package-desc{
-    color:#777;
-    font-size:9px;
-    margin-top:7px;
-    line-height:1.8;
-}
-
-.features{
-    list-style:none;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px 10px;
-    margin-top:15px;
-}
-
-.features li{
-    color:#bbb;
-    font-size:9px;
-    line-height:1.8;
-    position:relative;
-    padding-right:12px;
-}
-
-.features li::before{
-    content:"";
-    width:3px;
-    height:3px;
-    background:#c9a96a;
-    border-radius:50%;
-    position:absolute;
-    right:0;
-    top:9px;
-}
-
-.gift{
-    color:#c9a96a;
-    font-size:9px;
-    border-top:1px solid rgba(255,255,255,.06);
-    margin-top:14px;
-    padding-top:12px;
-}
-
-.package-bottom{
-    border-top:1px solid rgba(255,255,255,.06);
-    padding:11px 15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.detail-btn{
-    background:none;
-    border:0;
-    color:#888;
-    font-size:9px;
-}
-
-.quote-btn{
-    background:#c9a96a;
-    border:1px solid #c9a96a;
-    color:#111;
-    padding:9px 14px;
-    border-radius:9px;
-    font-size:9px;
-    font-weight:600;
-}
-
-/* ================= SERVICES ================= */
-
-.services{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-
-.service{
-    padding:18px 12px;
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:16px;
-    background:#101010;
-    text-align:center;
-}
-
-.service-icon{
-    font-size:23px;
-    margin-bottom:10px;
-}
-
-.service h3{
-    font-size:11px;
-    font-weight:500;
-}
-
-.service p{
-    color:#777;
-    font-size:8px;
-    margin-top:6px;
-    line-height:1.8;
-}
-
-/* ================= PORTFOLIO ================= */
-
-.portfolio-tabs{
-    display:flex;
-    gap:7px;
-    overflow-x:auto;
-    margin-bottom:15px;
-    padding-bottom:3px;
-}
-
-.portfolio-tabs::-webkit-scrollbar{
-    display:none;
-}
-
-.portfolio-tab{
-    flex:none;
-    padding:8px 13px;
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,.1);
-    background:#111;
-    color:#888;
-    font-size:9px;
-}
-
-.portfolio-tab.active{
-    color:#111;
-    background:#c9a96a;
-    border-color:#c9a96a;
-}
-
-.portfolio-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-}
-
-.portfolio-item{
-    height:170px;
-    border-radius:14px;
-    overflow:hidden;
-    position:relative;
-    background:
-        linear-gradient(
-            135deg,
-            #181818,
-            #0e0e0e
-        );
-    border:1px solid rgba(255,255,255,.07);
-}
-
-.portfolio-item.large{
-    grid-column:span 2;
-    height:210px;
-}
-
-.portfolio-placeholder{
-    width:100%;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    color:#666;
-    font-size:10px;
-    gap:8px;
-}
-
-.portfolio-placeholder span{
-    font-size:25px;
-}
-
-.portfolio-note{
-    text-align:center;
-    color:#666;
-    font-size:9px;
-    margin-top:15px;
-    line-height:1.8;
-}
-
-/* ================= CONTACT ================= */
-
-.contact-list{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
-
-.contact-btn{
-    width:100%;
-    padding:14px;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,.09);
-    background:#111;
-    color:#fff;
-    font-size:10px;
-    text-align:center;
-}
-
-.contact-btn.gold{
-    background:#c9a96a;
-    color:#111;
-    border-color:#c9a96a;
-    font-weight:600;
-}
-
-/* ================= MODAL ================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    z-index:100;
-    display:none;
-    align-items:flex-end;
-    justify-content:center;
-    background:rgba(0,0,0,.8);
-    backdrop-filter:blur(10px);
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:100%;
-    max-width:520px;
-    max-height:90vh;
-    overflow-y:auto;
-    background:#111;
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:24px 24px 0 0;
-    padding:22px 19px 30px;
-    animation:slideUp .25s ease;
-}
-
-@keyframes slideUp{
-    from{
-        transform:translateY(100%);
-    }
-    to{
-        transform:translateY(0);
-    }
-}
-
-.modal-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:18px;
-}
-
-.modal-head h2{
-    font-size:17px;
-    font-weight:500;
-}
-
-.close{
-    width:33px;
-    height:33px;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,.1);
-    background:#181818;
-    color:#aaa;
-    font-size:17px;
-}
-
-/* ================= DETAIL ================= */
-
-.detail-features{
-    list-style:none;
-}
-
-.detail-features li{
-    color:#c8c8c8;
-    font-size:10px;
-    padding:8px 0;
-    border-bottom:1px solid rgba(255,255,255,.035);
-}
-
-.detail-features li::before{
-    content:"✓";
-    color:#c9a96a;
-    margin-left:8px;
-}
-
-.detail-gift{
-    margin-top:17px;
-    padding:12px;
-    background:rgba(201,169,106,.06);
-    border:1px solid rgba(201,169,106,.2);
-    border-radius:11px;
-    color:#c9a96a;
-    font-size:9px;
-    text-align:center;
-}
-
-/* ================= FORM ================= */
-
-.selected-package{
-    padding:12px;
-    background:rgba(201,169,106,.06);
-    border:1px solid rgba(201,169,106,.25);
-    border-radius:11px;
-    color:#c9a96a;
-    font-size:10px;
-    margin-bottom:17px;
-}
-
-.form-group{
-    margin-bottom:13px;
-}
-
-.form-group label{
-    display:block;
-    color:#aaa;
-    font-size:9px;
-    margin-bottom:6px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea{
-    width:100%;
-    background:#181818;
-    border:1px solid rgba(255,255,255,.09);
-    color:#fff;
-    border-radius:10px;
-    padding:12px;
-    outline:none;
-    font-size:10px;
-}
-
-.form-group textarea{
-    height:85px;
-    resize:none;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-    border-color:rgba(201,169,106,.55);
-}
-
-.submit-btn{
-    width:100%;
-    border:0;
-    border-radius:11px;
-    background:#c9a96a;
-    color:#111;
-    padding:13px;
-    font-size:10px;
-    font-weight:600;
-    margin-top:4px;
-}
-
-.submit-btn:disabled{
-    opacity:.55;
-}
-
-/* ================= SUCCESS ================= */
-
-.success{
-    display:none;
-    text-align:center;
-    padding:30px 8px 15px;
-}
-
-.success-icon{
-    width:56px;
-    height:56px;
-    border-radius:50%;
-    margin:0 auto 15px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#53c96c;
-    border:1px solid rgba(83,201,108,.35);
-    background:rgba(83,201,108,.1);
-    font-size:23px;
-}
-
-.success h3{
-    color:#53c96c;
-    font-size:14px;
-    font-weight:500;
-}
-
-.success p{
-    color:#fff;
-    font-size:9px;
-    line-height:2;
-    margin-top:10px;
-}
-
-/* ================= FOOTER ================= */
-
-.footer{
-    padding:35px 18px;
-    text-align:center;
-}
-
-.footer-name{
-    font-family:Arial,sans-serif;
-    letter-spacing:4px;
-    font-size:15px;
-}
-
-.footer p{
-    color:#666;
-    font-size:8px;
-    margin-top:8px;
-    line-height:2;
-}
-
-.footer-line{
-    width:30px;
-    height:1px;
-    background:#c9a96a;
-    margin:12px auto;
-}
-
-@media(max-width:360px){
-    .features{
-        grid-template-columns:1fr;
-    }
-
-    .hero h1{
-        font-size:24px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-<!-- ================= HEADER ================= -->
-
-<header class="header">
-    <div class="brand">
-        <div class="brand-name">SEVEN7STUDIO</div>
-        <div class="brand-line"></div>
-        <div class="brand-sub">STUDIO • PHOTOGRAPHY • FILM</div>
-        <div class="manager">مدیریت رضا جوزری</div>
-    </div>
-</header>
-
-
-<!-- ================= HERO ================= -->
-
-<section class="hero" id="home">
-
-    <div class="hero-small">
-        SEVEN7STUDIO
-    </div>
-
-    <h1>
-        لحظه‌ها را<br>
-        <span>ماندگار</span> ثبت می‌کنیم
-    </h1>
-
-    <p>
-        عکاسی و فیلمبرداری حرفه‌ای برای عقد، عروسی،
-        فرمالیته و پروژه‌های تبلیغاتی
-    </p>
-
-    <div class="hero-buttons">
-
-        <button class="hero-btn"
-        onclick="scrollToSection('packages')">
-            مشاهده پکیج‌ها
-        </button>
-
-        <button class="hero-btn secondary"
-        onclick="scrollToSection('portfolio')">
-            نمونه‌کارها
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ================= SERVICES ================= -->
-
-<section class="section" id="services">
-
-    <div class="section-head">
-        <span>OUR SERVICES</span>
-        <h2>خدمات</h2>
-        <p>تولید تصویر از ایده تا خروجی نهایی</p>
-    </div>
-
-    <div class="services">
-
-        <div class="service">
-            <div class="service-icon">📷</div>
-            <h3>عکاسی</h3>
-            <p>عکاسی مراسم، آتلیه، باغ و تبلیغاتی</p>
-        </div>
-
-        <div class="service">
-            <div class="service-icon">🎬</div>
-            <h3>فیلمبرداری</h3>
-            <p>پوشش حرفه‌ای مراسم با چند دوربین</p>
-        </div>
-
-        <div class="service">
-            <div class="service-icon">🚁</div>
-            <h3>هلی‌شات</h3>
-            <p>تصاویر هوایی سینمایی از مراسم</p>
-        </div>
-
-        <div class="service">
-            <div class="service-icon">🎥</div>
-            <h3>کرین و گیمبال</h3>
-            <p>حرکت‌های سینمایی و نرم دوربین</p>
-        </div>
-
-        <div class="service">
-            <div class="service-icon">✨</div>
-            <h3>فرمالیته</h3>
-            <p>طراحی و اجرای کلیپ فرمالیته</p>
-        </div>
-
-        <div class="service">
-            <div class="service-icon">🎞️</div>
-            <h3>تدوین و کالرگرید</h3>
-            <p>تدوین حرفه‌ای و اصلاح رنگ سینمایی</p>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= PACKAGES ================= -->
-
-<section class="section" id="packages">
-
-    <div class="section-head">
-        <span>SEVEN7STUDIO COLLECTION</span>
-        <h2>پکیج‌ها</h2>
-        <p>پکیج مناسب مراسم خود را انتخاب کنید</p>
-    </div>
-
-
-<!-- ================= عقد ================= -->
-
-<div class="category">
-
-    <div class="category-title">
-        <div class="category-icon">💍</div>
-        <div>
-            <h3>پکیج‌های عقد</h3>
-            <p>WEDDING CEREMONY</p>
-        </div>
-    </div>
-
-
-    <!-- عقد مینیمال -->
-
-    <div class="package">
-
-        <div class="package-top">
-
-            <div class="package-name">
-                <h4>عقد مینیمال</h4>
-                <span class="badge">MINIMAL</span>
-            </div>
-
-            <p class="package-desc">
-                انتخابی ساده و حرفه‌ای برای ثبت لحظات عقد
-            </p>
-
-            <ul class="features">
-                <li>تک دوربین</li>
-                <li>۱ دوربین فیلمبرداری</li>
-                <li>گیمبال</li>
-                <li>کلیپ کوتاه عقد</li>
-                <li>ادیت و اصلاح رنگ</li>
-                <li>ورودی عکاسی آتلیه رایگان</li>
-            </ul>
-
-            <div class="gift">
-                🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو
-            </div>
-
-        </div>
-
-        <div class="package-bottom">
-
-            <button class="detail-btn"
-            onclick="showDetail('عقد مینیمال',[
-            'تک دوربین',
-            '۱ دوربین فیلمبرداری',
-            'گیمبال',
-            'کلیپ کوتاه عقد',
-            'ادیت و اصلاح رنگ',
-            'ورودی عکاسی آتلیه رایگان'
-            ],'تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو')">
-                مشاهده جزئیات
-            </button>
-
-            <button class="quote-btn"
-            onclick="openQuote('عقد مینیمال')">
-                استعلام قیمت
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- عقد کلاسیک -->
-
-    <div class="package">
-
-        <div class="package-top">
-
-            <div class="package-name">
-                <h4>عقد کلاسیک</h4>
-                <span class="badge">CLASSIC</span>
-            </div>
-
-            <p class="package-desc">
-                پوشش کامل‌تر برای ثبت حرفه‌ای مراسم عقد
-            </p>
-
-            <ul class="features">
-                <li>دو دوربین</li>
-                <li>۲ دوربین فیلمبرداری</li>
-                <li>گیمبال</li>
-                <li>کلیپ عقد</li>
-                <li>ادیت حرفه‌ای</li>
-                <li>اصلاح رنگ</li>
-                <li>ورودی عکاسی آتلیه رایگان</li>
-            </ul>
-
-            <div class="gift">
-                🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو
-            </div>
-
-        </div>
-
-        <div class="package-bottom">
-
-            <button class="detail-btn"
-            onclick="showDetail('عقد کلاسیک',[
-            'دو دوربین',
-            '۲ دوربین فیلمبرداری',
-            'گیمبال',
-            'کلیپ عقد',
-            'ادیت حرفه‌ای',
-            'اصلاح رنگ',
-            'ورودی عکاسی آتلیه رایگان'
-            ],'تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو')">
-                مشاهده جزئیات
-            </button>
-
-            <button class="quote-btn"
-            onclick="openQuote('عقد کلاسیک')">
-                استعلام قیمت
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- عقد پریمیوم -->
-
-    <div class="package">
-
-        <div class="package-top">
-
-            <div class="package-name">
-                <h4>عقد پریمیوم</h4>
-                <span class="badge">PREMIUM</span>
-            </div>
-
-            <p class="package-desc">
-                تجربه تصویری سینمایی و حرفه‌ای‌تر
-            </p>
-
-            <ul class="features">
-                <li>دو دوربین</li>
-                <li>۲ دوربین فیلمبرداری</li>
-                <li>کرین</li>
-                <li>گیمبال</li>
-                <li>کلیپ ویژه عقد</li>
-                <li>ادیت حرفه‌ای</li>
-                <li>کالرگرید</li>
-                <li>ورودی عکاسی آتلیه رایگان</li>
-            </ul>
-
-            <div class="gift">
-                🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو
-            </div>
-
-        </div>
-
-        <div class="package-bottom">
-
-            <button class="detail-btn"
-            onclick="showDetail('عقد پریمیوم',[
-            'دو دوربین',
-            '۲ دوربین فیلمبرداری',
-            'کرین',
-            'گیمبال',
-            'کلیپ ویژه عقد',
-            'ادیت حرفه‌ای',
-            'کالرگرید',
-            'ورودی عکاسی آتلیه رایگان'
-            ],'تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو')">
-                مشاهده جزئیات
-            </button>
-
-            <button class="quote-btn"
-            onclick="openQuote('عقد پریمیوم')">
-                استعلام قیمت
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- عقد VIP -->
-
-    <div class="package">
-
-        <div class="package-top">
-
-            <div class="package-name">
-                <h4>عقد VIP | فول</h4>
-                <span class="badge">VIP</span>
-            </div>
-
-            <p class="package-desc">
-                کامل‌ترین پوشش تصویری برای مراسم عقد
-            </p>
-
-            <ul class="features">
-                <li>دو دوربین</li>
-                <li>۲ دوربین فیلمبرداری</li>
-                <li>کرین</li>
-                <li>هلی‌شات</li>
-                <li>گیمبال</li>
-                <li>۱ عکاس اختصاصی</li>
-                <li>کلیپ ویژه عقد</li>
-                <li>ادیت حرفه‌ای</li>
-                <li>کالرگرید</li>
-                <li>آلبوم ژورنال</li>
-                <li>ورودی عکاسی آتلیه رایگان</li>
-            </ul>
-
-            <div class="gift">
-                🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو
-            </div>
-
-        </div>
-
-        <div class="package-bottom">
-
-            <button class="detail-btn"
-            onclick="showDetail('عقد VIP | فول',[
-            'دو دوربین',
-            '۲ دوربین فیلمبرداری',
-            'کرین',
-            'هلی‌شات',
-            'گیمبال',
-            '۱ عکاس اختصاصی',
-            'کلیپ ویژه عقد',
-            'ادیت حرفه‌ای',
-            'کالرگرید',
-            'آلبوم ژورنال',
-            'ورودی عکاسی آتلیه رایگان'
-            ],'تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو')">
-                مشاهده جزئیات
-            </button>
-
-            <button class="quote-btn"
-            onclick="openQuote('عقد VIP | فول')">
-                استعلام قیمت
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ================= عروسی ================= -->
-
-<div class="category">
-
-    <div class="category-title">
-        <div class="category-icon">👰</div>
-
-        <div>
-            <h3>پکیج‌های عروسی</h3>
-            <p>WEDDING COLLECTION</p>
-        </div>
-    </div>
-
-
-    <!-- عروسی مینیمال -->
-
-    <div class="package">
-
-        <div class="package-top">
-
-            <div class="package-name">
-                <h4>عروسی مینیمال</h4>
-                <span class="badge">MINIMAL</span>
-            </div>
-
-            <p class="package-desc">
-                ثبت ساده، شیک و حرفه‌ای روز عروسی
-            </p>
-
-            <ul class="features">
-                <li>تک دوربین</li>
-                <li>۱ دوربین فیلمبرداری</li>
-                <li>گیمبال</li>
-                <li>کلیپ روز عروسی</li>
-                <li>ادیت و اصلاح رنگ</li>
-                <li>ورودی عکاسی آتلیه رایگان</li>
-            </ul>
-
-            <div class="gift">
-                🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو
-            </div>
-
-        </div>
-
-        <div class="package-bottom">
-
-            <button class="detail-btn"
-            onclick="showDetail('عروسی مینیمال',[
-            'تک دوربین',
-            '۱ دوربین فیلمبرداری',
-            'گیمبال',
-            'کلیپ روز عروسی',
-            'ادیت و اصلاح رنگ',
-            'ورودی عکاسی آتلیه رایگان'
-            ],'تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو')">
-                مشاهده جزئیات
-            </button>
-
-            <button class="quote-btn"
-            onclick="openQuote('عروسی مینیمال')">
-                استعلام قیمت
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- عروسی کلاسیک -->
-
-    <div class="package">
-
-        <div class="package-top">
-
-            <div class="package-name">
-                <h4>عروسی کلاسیک</h4>
-                <span class="badge">CLASSIC</span>
-            </div>
-
-            <p class="package-desc">
-                پوشش کامل‌تر و حرفه‌ای‌تر مراسم
-            </p>
-
-            <ul class="features">
-                <li>دو دوربین</li>
-                <li>۲ دوربین فیلمبرداری</li>
-                <li>گیمبال</li>
-                <li>کلیپ روز عروسی</li>
-                <li>ادیت حرفه‌ای</li>
-                <li>اصلاح رنگ</li>
-                <li>ورودی عکاسی آتلیه رایگان</li>
-            </ul>
-
-            <div class="gift">
-                🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو
-            </div>
-
-        </div>
-
-        <div class="package-bottom">
-
-            <button class="detail-btn"
-            onclick="showDetail('عروسی کلاسیک',[
-            'دو دوربین',
-            '۲ دوربین فیلمبرداری',
-            'گیمبال',
-            'کلیپ روز عروسی',
-            'ادیت حرفه‌ای',
-            'اصلاح رنگ',
-            'ورودی عکاسی آتلیه رایگان'
-            ],'تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو')">
-                مشاهده جزئیات
-            </button>
-
-            <button class="quote-btn"
-            onclick="openQuote('عروسی کلاسیک')">
-                استعلام قیمت
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- عروسی پریمیوم -->
-
-    <div class="package">
-
-        <div class="package-top">
-
-            <div class="package-name">
-                <h4>عروسی پریمیوم</h4>
-                <span class="badge">PREMIUM</span>
-            </div>
-
-            <p class="package-desc">
-                تولید حرفه‌ای‌تر با پوشش تصویری گسترده
-            </p>
-
-            <ul class="features">
-                <li>سه دوربین</li>
-                <li>۳ دوربین فیلمبرداری</li>
-                <li>کرین</li>
-                <li>گیمبال</li>
-                <li>کلیپ روز عروسی</li>
-                <li>ادیت حرفه‌ای</li>
-                <li>اصلاح رنگ</li>
-                <li>ورودی عکاسی آتلیه رایگان</li>
-            </ul>
-
-            <div class="gift">
-                🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو
-            </div>
-
-        </div>
-
-        <div class="package-bottom">
-
-            <button class="detail-btn"
-            onclick="showDetail('عروسی پریمیوم',[
-            'سه دوربین',
-            '۳ دوربین فیلمبرداری',
-            'کرین',
-            'گیمبال',
-            'کلیپ روز عروسی',
-            'ادیت حرفه‌ای',
-            'اصلاح رنگ',
-            'ورودی عکاسی آتلیه رایگان'
-            ],'تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو')">
-                مشاهده جزئیات
-            </button>
-
-            <button class="quote-btn"
-            onclick="openQuote('عروسی پریمیوم')">
-                استعلام قیمت
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- عروسی VIP -->
-
-    <div class="package">
-
-        <div class="package-top">
-
-            <div class="package-name">
-                <h4>عروسی VIP | فول</h4>
-                <span class="badge">VIP • FULL</span>
-            </div>
-
-            <p class="package-desc">
-                کامل‌ترین پکیج تولید و ثبت مراسم عروسی
-            </p>
-
-            <ul class="features">
-                <li>۲ دوربین فیلمبرداری با کیفیت 4K</li>
-                <li>هلی‌شات</li>
-                <li>کرین با دوربین سونی</li>
-                <li>گیمبال</li>
-                <li>فرمالیته</li>
-                <li>کلیپ فرمالیته</li>
-                <li>کلیپ روز عروسی</li>
-                <li>کلیپ ویدیو پروجکشن</li>
-                <li>تدوین کل پروژه</li>
-                <li>عکاسی آتلیه‌ای مدرن / باغ</li>
-                <li>عکاسی سرمجلس خانوادگی</li>
-                <li>آلبوم ژورنالی ۱۰ برگ، ۴۰×۳۰</li>
-                <li>طراحی و عکاسی به سبک مدرن</li>
-                <li>۱۰ برگ چاپ عکس سرمجلس</li>
-                <li>کادر مجرب و حرفه‌ای</li>
-                <li>تحویل تمامی فایل‌ها با کیفیت اصلی</li>
-                <li>ورودی عکاسی آتلیه رایگان</li>
-            </ul>
-
-            <div class="gift">
-                🎁 تخته‌شاسی ۶۰×۴۰ هدیه از طرف مدیریت استودیو
-            </div>
-
-        </div>
-
-        <div class="package-bottom">
-
-            <button class="detail-btn"
-            onclick="showDetail('عروسی VIP | فول',[
-            '۲ دوربین فیلمبرداری با کیفیت 4K',
-            'هلی‌شات',
-            'کرین با دوربین سونی',
-            'گیمبال',
-            'فرمالیته',
-            'کلیپ فرمالیته',
-            'کلیپ روز عروسی',
-            'بخش کلیپ ویدیو پروجکشن',
-            'تدوین کل پروژه',
-            'عکاسی آتلیه‌ای مدرن / باغ',
-            'عکاسی سرمجلس به صورت خانوادگی',
-            'آلبوم ژورنالی ۱۰ برگ، سایز ۴۰×۳۰',
-            'طراحی و عکاسی به سبک مدرن',
-            '۱۰ برگ چاپ عکس سرمجلس',
-            'کادر مجرب و حرفه‌ای',
-            'تحویل تمامی فایل‌ها با کیفیت اصلی',
-            'ورودی عکاسی آتلیه رایگان'
-            ],'تخته‌شاسی ۶۰×۴۰ هدیه از طرف مدیریت استودیو')">
-                مشاهده جزئیات
-            </button>
-
-            <button class="quote-btn"
-            onclick="openQuote('عروسی VIP | فول')">
-                استعلام قیمت
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-</section>
-
-
-<!-- ================= PORTFOLIO ================= -->
-
-<section class="section" id="portfolio">
-
-    <div class="section-head">
-        <span>SEVEN7STUDIO WORKS</span>
-        <h2>نمونه‌کارها</h2>
-        <p>بخشی از پروژه‌های Seven7Studio</p>
-    </div>
-
-
-    <div class="portfolio-tabs">
-
-        <button class="portfolio-tab active">
-            همه
-        </button>
-
-        <button class="portfolio-tab">
-            عروسی
-        </button>
-
-        <button class="portfolio-tab">
-            عقد
-        </button>
-
-        <button class="portfolio-tab">
-            فرمالیته
-        </button>
-
-        <button class="portfolio-tab">
-            آتلیه
-        </button>
-
-    </div>
-
-
-    <div class="portfolio-grid">
-
-        <div class="portfolio-item large">
-            <div class="portfolio-placeholder">
-                <span>🎬</span>
-                <div>ویدئوی نمونه‌کار</div>
-            </div>
-        </div>
-
-        <div class="portfolio-item">
-            <div class="portfolio-placeholder">
-                <span>📷</span>
-                <div>عروسی</div>
-            </div>
-        </div>
-
-        <div class="portfolio-item">
-            <div class="portfolio-placeholder">
-                <span>💍</span>
-                <div>عقد</div>
-            </div>
-        </div>
-
-        <div class="portfolio-item">
-            <div class="portfolio-placeholder">
-                <span>✨</span>
-                <div>فرمالیته</div>
-            </div>
-        </div>
-
-        <div class="portfolio-item">
-            <div class="portfolio-placeholder">
-                <span>📸</span>
-                <div>آتلیه</div>
-            </div>
-        </div>
-
-    </div>
-
-    <p class="portfolio-note">
-        این بخش آماده قرارگیری عکس‌ها و ویدئوهای واقعی شماست.
-    </p>
-
-</section>
-
-
-<!-- ================= CONTACT ================= -->
-
-<section class="section" id="contact">
-
-    <div class="section-head">
-        <span>GET IN TOUCH</span>
-        <h2>ارتباط با ما</h2>
-        <p>برای مشاوره و رزرو با ما در ارتباط باشید</p>
-    </div>
-
-
-    <div class="contact-list">
-
-        <button class="contact-btn gold"
-        onclick="window.location.href='tel:09396685513'">
-            📞 تماس با ما
-        </button>
-
-        <button class="contact-btn"
-        onclick="window.open('https://www.instagram.com/svn7team/','_blank')">
-            📷 اینستاگرام
-        </button>
-
-        <button class="contact-btn"
-        onclick="window.open('https://t.me/Seven7StudioBot','_blank')">
-            ✈️ تلگرام
-        </button>
-
-        <button class="contact-btn"
-        onclick="window.open('https://wa.me/989396685513','_blank')">
-            💬 واتساپ
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ================= FOOTER ================= -->
-
-<footer class="footer">
-
-    <div class="footer-name">
-        SEVEN7STUDIO
-    </div>
-
-    <div class="footer-line"></div>
-
-    <p>
-        STUDIO • PHOTOGRAPHY • FILM<br>
-        مدیریت رضا جوزری
-    </p>
-
-</footer>
-
-</div>
-
-
-<!-- ================= DETAIL MODAL ================= -->
-
-<div class="modal" id="detailModal">
-
-    <div class="modal-box">
-
-        <div class="modal-head">
-
-            <h2 id="detailTitle">
-                جزئیات پکیج
-            </h2>
-
-            <button class="close"
-            onclick="closeModal('detailModal')">
-                ×
-            </button>
-
-        </div>
-
-
-        <ul class="detail-features"
-        id="detailFeatures">
-        </ul>
-
-
-        <div class="detail-gift"
-        id="detailGift">
-        </div>
-
-
-        <button class="submit-btn"
-        id="detailQuoteButton">
-            استعلام قیمت این پکیج
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- ================= QUOTE MODAL ================= -->
-
-<div class="modal" id="quoteModal">
-
-    <div class="modal-box">
-
-        <div class="modal-head">
-
-            <h2>
-                استعلام قیمت
-            </h2>
-
-            <button class="close"
-            onclick="closeModal('quoteModal')">
-                ×
-            </button>
-
-        </div>
-
-
-        <div id="quoteForm">
-
-            <div class="selected-package">
-
-                پکیج انتخابی:
-                <strong id="selectedPackage"></strong>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    نام و نام خانوادگی
-                </label>
-
-                <input
-                type="text"
-                id="name"
-                placeholder="نام و نام خانوادگی">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    شماره تماس
-                </label>
-
-                <input
-                type="tel"
-                id="phone"
-                placeholder="مثلاً 09123456789">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    تاریخ مراسم
-                </label>
-
-                <input
-                type="date"
-                id="date">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    محل برگزاری / شهر
-                </label>
-
-                <input
-                type="text"
-                id="location"
-                placeholder="مثلاً بندرعباس">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    نوع مراسم
-                </label>
-
-                <select id="ceremony">
-
-                    <option value="">
-                        انتخاب کنید
-                    </option>
-
-                    <option value="عقد">
-                        عقد
-                    </option>
-
-                    <option value="عروسی">
-                        عروسی
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    توضیحات شما
-                </label>
-
-                <textarea
-                id="description"
-                placeholder="اگر توضیح یا درخواست خاصی دارید بنویسید..."></textarea>
-
-            </div>
-
-
-            <button
-            class="submit-btn"
-            id="submitQuoteButton"
-            onclick="submitQuote()">
-
-                ارسال درخواست استعلام
-
-            </button>
-
-        </div>
-
-
-        <div class="success"
-        id="successBox">
-
-            <div class="success-icon">
-                ✓
-            </div>
-
-            <h3>
-                🟢 درخواست شما با موفقیت ثبت شد ✓
-            </h3>
-
-            <p>
-                اطلاعات شما دریافت شد.<br>
-                تیم Seven7Studio در اولین فرصت با شما تماس خواهد گرفت.
-            </p>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<script>
-
-/* ================= TELEGRAM ================= */
-
-const tg =
-    window.Telegram &&
-    window.Telegram.WebApp
-    ? window.Telegram.WebApp
-    : null;
-
-if(tg){
-
-    tg.ready();
-    tg.expand();
-
-    try{
-
-        tg.setHeaderColor("#090909");
-        tg.setBackgroundColor("#090909");
-
-    }catch(e){}
-
-}
-
-
-/* ================= CLOUDFLARE API ================= */
-
-const API_URL =
-    "https://seven7studio-api.rezajozari597660.workers.dev/";
-
-
-/* ================= DATE ================= */
-
-const today =
-    new Date();
-
-const year =
-    today.getFullYear();
-
-const month =
-    String(today.getMonth()+1)
-    .padStart(2,"0");
-
-const day =
-    String(today.getDate())
-    .padStart(2,"0");
-
-document.getElementById("date").min =
-    `${year}-${month}-${day}`;
-
-
-/* ================= SELECTED PACKAGE ================= */
-
-let selectedPackageName = "";
-
-
-/* ================= SCROLL ================= */
-
-function scrollToSection(id){
-
-    const element =
-        document.getElementById(id);
-
-    if(element){
-
-        element.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
-
-    }
-
-}
-
-
-/* ================= DETAIL ================= */
-
-function showDetail(
-    name,
-    features,
-    gift
-){
-
-    document.getElementById(
-        "detailTitle"
-    ).textContent = name;
-
-
-    const list =
-        document.getElementById(
-            "detailFeatures"
-        );
-
-    list.innerHTML = "";
-
-
-    features.forEach(function(feature){
-
-        const li =
-            document.createElement("li");
-
-        li.textContent =
-            feature;
-
-        list.appendChild(li);
-
-    });
-
-
-    document.getElementById(
-        "detailGift"
-    ).textContent =
-        "🎁 " + gift;
-
-
-    document.getElementById(
-        "detailQuoteButton"
-    ).onclick = function(){
-
-        closeModal("detailModal");
-
-        openQuote(name);
+      "Access-Control-Max-Age":
+        "86400"
 
     };
 
 
-    document.getElementById(
-        "detailModal"
-    ).classList.add("show");
+    /*
+    ==========================================
+    OPTIONS
+    ==========================================
+    */
 
-}
+    if (request.method === "OPTIONS") {
 
+      return new Response(null, {
 
-/* ================= OPEN QUOTE ================= */
+        status: 204,
 
-function openQuote(packageName){
+        headers: corsHeaders
 
-    selectedPackageName =
-        packageName;
-
-
-    document.getElementById(
-        "selectedPackage"
-    ).textContent =
-        packageName;
-
-
-    document.getElementById(
-        "quoteForm"
-    ).style.display =
-        "block";
-
-
-    document.getElementById(
-        "successBox"
-    ).style.display =
-        "none";
-
-
-    const button =
-        document.getElementById(
-            "submitQuoteButton"
-        );
-
-    button.disabled = false;
-
-    button.textContent =
-        "ارسال درخواست استعلام";
-
-
-    document.getElementById(
-        "quoteModal"
-    ).classList.add("show");
-
-}
-
-
-/* ================= SUBMIT QUOTE ================= */
-
-async function submitQuote(){
-
-    const name =
-        document.getElementById(
-            "name"
-        ).value.trim();
-
-
-    const phone =
-        document.getElementById(
-            "phone"
-        ).value.trim();
-
-
-    const date =
-        document.getElementById(
-            "date"
-        ).value;
-
-
-    const location =
-        document.getElementById(
-            "location"
-        ).value.trim();
-
-
-    const ceremony =
-        document.getElementById(
-            "ceremony"
-        ).value;
-
-
-    const description =
-        document.getElementById(
-            "description"
-        ).value.trim();
-
-
-    /* ================= VALIDATION ================= */
-
-    if(!selectedPackageName){
-
-        alert(
-            "لطفاً ابتدا یک پکیج را انتخاب کنید."
-        );
-
-        return;
+      });
 
     }
 
 
-    if(!name){
+    /*
+    ==========================================
+    GET TEST
+    ==========================================
+    */
 
-        alert(
-            "لطفاً نام و نام خانوادگی را وارد کنید."
-        );
+    if (request.method === "GET") {
 
-        return;
+      return new Response(
 
-    }
+        JSON.stringify({
 
+          success: true,
 
-    if(!phone){
+          service:
+            "Seven7Studio API",
 
-        alert(
-            "لطفاً شماره تماس را وارد کنید."
-        );
+          status:
+            "running"
 
-        return;
+        }),
 
-    }
+        {
 
+          status: 200,
 
-    if(!/^09\d{9}$/.test(phone)){
+          headers: {
 
-        alert(
-            "لطفاً شماره تماس را به صورت صحیح وارد کنید."
-        );
+            ...corsHeaders,
 
-        return;
+            "Content-Type":
+              "application/json; charset=UTF-8"
 
-    }
-
-
-    if(!date){
-
-        alert(
-            "لطفاً تاریخ مراسم را انتخاب کنید."
-        );
-
-        return;
-
-    }
-
-
-    if(!location){
-
-        alert(
-            "لطفاً محل برگزاری را وارد کنید."
-        );
-
-        return;
-
-    }
-
-
-    if(!ceremony){
-
-        alert(
-            "لطفاً نوع مراسم را انتخاب کنید."
-        );
-
-        return;
-
-    }
-
-
-    /* ================= DATA ================= */
-
-    const data = {
-
-        type:
-            "quote_request",
-
-        package:
-            selectedPackageName,
-
-        name:
-            name,
-
-        phone:
-            phone,
-
-        date:
-            date,
-
-        location:
-            location,
-
-        ceremony:
-            ceremony,
-
-        description:
-            description,
-
-        createdAt:
-            new Date().toISOString()
-
-    };
-
-
-    /* ================= BUTTON ================= */
-
-    const button =
-        document.getElementById(
-            "submitQuoteButton"
-        );
-
-
-    button.disabled =
-        true;
-
-
-    button.textContent =
-        "در حال ارسال...";
-
-
-    /* ================= SEND ================= */
-
-    try{
-
-        const response =
-            await fetch(
-                API_URL,
-                {
-                    method:"POST",
-
-                    headers:{
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify(data)
-                }
-            );
-
-
-        let result = {};
-
-        try{
-
-            result =
-                await response.json();
-
-        }catch(error){
-
-            result = {};
+          }
 
         }
 
-
-        if(
-            !response.ok ||
-            !result.success
-        ){
-
-            throw new Error(
-                result.error ||
-                "ارسال درخواست انجام نشد."
-            );
-
-        }
-
-
-        /* ================= SUCCESS ================= */
-
-        document.getElementById(
-            "quoteForm"
-        ).style.display =
-            "none";
-
-
-        document.getElementById(
-            "successBox"
-        ).style.display =
-            "block";
-
-
-        console.log(
-            "QUOTE SENT:",
-            data
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "QUOTE ERROR:",
-            error
-        );
-
-
-        alert(
-            "ارسال درخواست انجام نشد.\nلطفاً دوباره تلاش کنید."
-        );
-
-
-        button.disabled =
-            false;
-
-
-        button.textContent =
-            "ارسال درخواست استعلام";
+      );
 
     }
 
-}
+
+    /*
+    ==========================================
+    ONLY POST
+    ==========================================
+    */
+
+    if (request.method !== "POST") {
+
+      return new Response(
+
+        JSON.stringify({
+
+          success: false,
+
+          error:
+            "Method Not Allowed"
+
+        }),
+
+        {
+
+          status: 405,
+
+          headers: {
+
+            ...corsHeaders,
+
+            "Content-Type":
+              "application/json; charset=UTF-8"
+
+          }
+
+        }
+
+      );
+
+    }
 
 
-/* ================= CLOSE MODAL ================= */
+    /*
+    ==========================================
+    MAIN
+    ==========================================
+    */
 
-function closeModal(id){
+    try {
 
-    document.getElementById(id)
-        .classList.remove("show");
+      /*
+      ----------------------------------------
+      CHECK SECRETS
+      ----------------------------------------
+      */
 
-}
+      if (!env.BOT_TOKEN) {
+
+        throw new Error(
+          "BOT_TOKEN تنظیم نشده است."
+        );
+
+      }
 
 
-/* ================= OUTSIDE CLICK ================= */
+      if (!env.ADMIN_CHAT_ID) {
 
-document
-.querySelectorAll(".modal")
-.forEach(function(modal){
+        throw new Error(
+          "ADMIN_CHAT_ID تنظیم نشده است."
+        );
 
-    modal.addEventListener(
-        "click",
-        function(e){
+      }
 
-            if(e.target === modal){
 
-                modal.classList.remove(
-                    "show"
-                );
+      /*
+      ----------------------------------------
+      READ JSON
+      ----------------------------------------
+      */
+
+      const data =
+        await request.json();
+
+
+      /*
+      ----------------------------------------
+      REQUEST TYPE
+      ----------------------------------------
+      */
+
+      const type =
+        String(
+          data.type ||
+          "quote_request"
+        );
+
+
+      /*
+      ----------------------------------------
+      DATA
+      ----------------------------------------
+      */
+
+      const packageName =
+        String(
+          data.package ||
+          "ثبت نشده"
+        ).slice(0, 300);
+
+
+      const name =
+        String(
+          data.name ||
+          "ثبت نشده"
+        ).slice(0, 150);
+
+
+      const phone =
+        String(
+          data.phone ||
+          "ثبت نشده"
+        ).slice(0, 50);
+
+
+      const date =
+        String(
+          data.date ||
+          "ثبت نشده"
+        ).slice(0, 50);
+
+
+      const time =
+        String(
+          data.time ||
+          "ثبت نشده"
+        ).slice(0, 50);
+
+
+      const location =
+        String(
+          data.location ||
+          "ثبت نشده"
+        ).slice(0, 200);
+
+
+      const ceremony =
+        String(
+          data.ceremony ||
+          "ثبت نشده"
+        ).slice(0, 100);
+
+
+      const description =
+        String(
+          data.description ||
+          "بدون توضیحات"
+        ).slice(0, 1000);
+
+
+      /*
+      ----------------------------------------
+      TITLE
+      ----------------------------------------
+      */
+
+      let title =
+        "🔔 استعلام قیمت جدید";
+
+
+      if (type === "booking_request") {
+
+        title =
+          "📅 درخواست رزرو جدید";
+
+      }
+
+
+      /*
+      ----------------------------------------
+      TELEGRAM MESSAGE
+      ----------------------------------------
+      */
+
+      const message =
+
+`${title}
+
+👑 پکیج:
+${packageName}
+
+👤 نام:
+${name}
+
+📱 تماس:
+${phone}
+
+📅 تاریخ:
+${date}
+
+⏰ ساعت پیشنهادی:
+${time}
+
+📍 محل:
+${location}
+
+💍 نوع مراسم:
+${ceremony}
+
+📝 توضیحات:
+${description}`;
+
+
+      /*
+      ----------------------------------------
+      TELEGRAM API
+      ----------------------------------------
+      */
+
+      const telegramURL =
+
+        `https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage`;
+
+
+      const telegramResponse =
+
+        await fetch(
+
+          telegramURL,
+
+          {
+
+            method: "POST",
+
+            headers: {
+
+              "Content-Type":
+                "application/json"
+
+            },
+
+            body:
+
+              JSON.stringify({
+
+                chat_id:
+                  env.ADMIN_CHAT_ID,
+
+                text:
+                  message,
+
+                disable_web_page_preview:
+                  true
+
+              })
+
+          }
+
+        );
+
+
+      /*
+      ----------------------------------------
+      TELEGRAM RESPONSE
+      ----------------------------------------
+      */
+
+      let telegramResult;
+
+
+      try {
+
+        telegramResult =
+          await telegramResponse.json();
+
+      } catch (error) {
+
+        telegramResult = {
+
+          ok: false,
+
+          description:
+            "پاسخ نامعتبر از Telegram API"
+
+        };
+
+      }
+
+
+      /*
+      ----------------------------------------
+      TELEGRAM ERROR
+      ----------------------------------------
+      */
+
+      if (
+        !telegramResponse.ok ||
+        !telegramResult.ok
+      ) {
+
+        return new Response(
+
+          JSON.stringify({
+
+            success: false,
+
+            error:
+              telegramResult.description ||
+              "Telegram API error"
+
+          }),
+
+          {
+
+            status: 500,
+
+            headers: {
+
+              ...corsHeaders,
+
+              "Content-Type":
+                "application/json; charset=UTF-8"
 
             }
 
+          }
+
+        );
+
+      }
+
+
+      /*
+      ----------------------------------------
+      SUCCESS
+      ----------------------------------------
+      */
+
+      return new Response(
+
+        JSON.stringify({
+
+          success: true,
+
+          message:
+            "Request sent successfully"
+
+        }),
+
+        {
+
+          status: 200,
+
+          headers: {
+
+            ...corsHeaders,
+
+            "Content-Type":
+              "application/json; charset=UTF-8"
+
+          }
+
         }
-    );
 
-});
-
-
-/* ================= PORTFOLIO TABS ================= */
-
-document
-.querySelectorAll(".portfolio-tab")
-.forEach(function(button){
-
-    button.addEventListener(
-        "click",
-        function(){
-
-            document
-            .querySelectorAll(
-                ".portfolio-tab"
-            )
-            .forEach(function(btn){
-
-                btn.classList.remove(
-                    "active"
-                );
-
-            });
+      );
 
 
-            this.classList.add(
-                "active"
-            );
+    } catch (error) {
+
+      /*
+      ========================================
+      SERVER ERROR
+      ========================================
+      */
+
+      return new Response(
+
+        JSON.stringify({
+
+          success: false,
+
+          error:
+            error.message ||
+            "Server error"
+
+        }),
+
+        {
+
+          status: 500,
+
+          headers: {
+
+            ...corsHeaders,
+
+            "Content-Type":
+              "application/json; charset=UTF-8"
+
+          }
 
         }
-    );
 
-});
+      );
 
-</script>
+    }
 
-</body>
-</html>
-```
+  }
+
+};
