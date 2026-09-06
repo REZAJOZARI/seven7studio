@@ -34,6 +34,7 @@
       align-items: flex-end;
       padding: 30px 22px;
       overflow: hidden;
+
       background:
         linear-gradient(to top, #0b0b0b 0%, transparent 65%),
         url("https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=85")
@@ -138,6 +139,42 @@
       font-size: 13px;
     }
 
+    /* ارتباط با ما */
+
+    .contact {
+      padding: 10px 20px 30px;
+    }
+
+    .contact-title {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .contact-item {
+      background: #151515;
+      border: 1px solid #252525;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+
+    .contact-item:hover {
+      transform: translateY(-2px);
+      border-color: #555;
+    }
+
+    /* Modal */
+
     .modal {
       display: none;
       position: fixed;
@@ -193,6 +230,8 @@
       cursor: pointer;
     }
 
+    /* Booking */
+
     .booking {
       display: none;
       padding: 25px 20px 40px;
@@ -236,6 +275,7 @@
       color: #666;
       font-size: 11px;
     }
+
   </style>
 </head>
 
@@ -243,9 +283,15 @@
 
 <div class="app">
 
+  <!-- صفحه اصلی -->
+
   <section class="hero">
+
     <div class="hero-content">
-      <div class="brand">SEVEN7STUDIO</div>
+
+      <div class="brand">
+        SEVEN7STUDIO
+      </div>
 
       <div class="subtitle">
         PHOTOGRAPHY • FILMMAKING
@@ -254,8 +300,13 @@
       <div class="intro">
         ثبت آنلاین خدمات عکاسی و فیلمبرداری
       </div>
+
     </div>
+
   </section>
+
+
+  <!-- خدمات -->
 
   <section class="section">
 
@@ -266,28 +317,62 @@
     <div class="cards">
 
       <div class="card" onclick="openServices('عکاسی')">
-        <h3>📸 عکاسی</h3>
-        <p>عکاسی حرفه‌ای عروسی، فرمالیته و تبلیغاتی</p>
+
+        <h3>
+          📸 عکاسی
+        </h3>
+
+        <p>
+          عکاسی حرفه‌ای عروسی، فرمالیته و تبلیغاتی
+        </p>
+
       </div>
+
 
       <div class="card" onclick="openServices('فیلمبرداری')">
-        <h3>🎬 فیلمبرداری</h3>
-        <p>فیلمبرداری سینمایی و تدوین حرفه‌ای</p>
+
+        <h3>
+          🎬 فیلمبرداری
+        </h3>
+
+        <p>
+          فیلمبرداری سینمایی و تدوین حرفه‌ای
+        </p>
+
       </div>
+
 
       <div class="card" onclick="openServices('هلی‌شات')">
-        <h3>🚁 هلی‌شات</h3>
-        <p>تصاویر هوایی حرفه‌ای با تجهیزات تخصصی</p>
+
+        <h3>
+          🚁 هلی‌شات
+        </h3>
+
+        <p>
+          تصاویر هوایی حرفه‌ای با تجهیزات تخصصی
+        </p>
+
       </div>
 
-      <div class="card" onclick="openServices('FPV')">
-        <h3>⚡ FPV</h3>
-        <p>تصاویر خاص و سینمایی با FPV</p>
+
+      <div class="card" onclick="openPackages()">
+
+        <h3>
+          📦 مشاهده پکیج‌ها
+        </h3>
+
+        <p>
+          مشاهده پکیج‌های عروسی و فرمالیته
+        </p>
+
       </div>
 
     </div>
 
   </section>
+
+
+  <!-- رزرو -->
 
   <section class="reserve">
 
@@ -305,33 +390,119 @@
 
   </section>
 
+
+  <!-- ارتباط با ما -->
+
+  <section class="contact">
+
+    <h2 class="contact-title">
+      ارتباط با ما
+    </h2>
+
+    <div class="contact-grid">
+
+      <a
+        class="contact-item"
+        href="tel:+989xxxxxxxxx"
+      >
+        📱 تماس با ما
+      </a>
+
+      <a
+        class="contact-item"
+        href="https://t.me/Seven7StudioBot"
+        target="_blank"
+      >
+        💬 تلگرام
+      </a>
+
+      <a
+        class="contact-item"
+        href="https://instagram.com/"
+        target="_blank"
+      >
+        📷 اینستاگرام
+      </a>
+
+      <a
+        class="contact-item"
+        href="#"
+        onclick="openLocation()"
+      >
+        📍 آدرس استودیو
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- فرم رزرو -->
+
   <section class="booking" id="booking">
 
-    <h2>📅 ثبت رزرو</h2>
+    <h2>
+      📅 ثبت رزرو
+    </h2>
 
-    <input class="input" id="name" type="text" placeholder="نام و نام خانوادگی">
+    <input
+      class="input"
+      id="name"
+      type="text"
+      placeholder="نام و نام خانوادگی"
+    >
 
-    <input class="input" id="phone" type="tel" placeholder="شماره تماس">
+    <input
+      class="input"
+      id="phone"
+      type="tel"
+      placeholder="شماره تماس"
+    >
 
-    <input class="input" id="date" type="date">
+    <input
+      class="input"
+      id="date"
+      type="date"
+    >
 
-    <select class="input" id="service">
-      <option value="">انتخاب خدمت</option>
-      <option>عکاسی</option>
-      <option>فیلمبرداری</option>
-      <option>هلی‌شات</option>
-      <option>FPV</option>
+    <select
+      class="input"
+      id="service"
+    >
+
+      <option value="">
+        انتخاب خدمت
+      </option>
+
+      <option>
+        عکاسی
+      </option>
+
+      <option>
+        فیلمبرداری
+      </option>
+
+      <option>
+        هلی‌شات
+      </option>
+
     </select>
+
 
     <button onclick="submitBooking()">
       ادامه رزرو
     </button>
 
-    <button class="back" onclick="backHome()">
+
+    <button
+      class="back"
+      onclick="backHome()"
+    >
       بازگشت
     </button>
 
   </section>
+
 
   <div class="footer">
     © Seven7Studio
@@ -339,15 +510,26 @@
 
 </div>
 
-<div class="modal" id="modal">
+
+<!-- Modal -->
+
+<div
+  class="modal"
+  id="modal"
+>
 
   <div class="modal-box">
 
-    <h2 id="modalTitle">خدمات</h2>
+    <h2 id="modalTitle">
+      خدمات
+    </h2>
 
     <div id="serviceList"></div>
 
-    <button class="close" onclick="closeModal()">
+    <button
+      class="close"
+      onclick="closeModal()"
+    >
       بستن
     </button>
 
@@ -355,121 +537,313 @@
 
 </div>
 
+
 <script>
+
+
+/* خدمات */
 
 function openServices(category) {
 
-  const modal = document.getElementById("modal");
-  const title = document.getElementById("modalTitle");
-  const list = document.getElementById("serviceList");
+  const modal =
+    document.getElementById("modal");
+
+  const title =
+    document.getElementById("modalTitle");
+
+  const list =
+    document.getElementById("serviceList");
+
 
   title.innerText = category;
 
+
   let services = [];
 
+
   if (category === "عکاسی") {
+
     services = [
+
       ["عکاسی عروسی", "پوشش کامل مراسم"],
+
       ["عکاسی فرمالیته", "عکاسی در لوکیشن انتخابی"],
+
       ["عکاسی تبلیغاتی", "مناسب برندها و کسب‌وکارها"]
+
     ];
+
   }
+
 
   if (category === "فیلمبرداری") {
+
     services = [
+
       ["فیلمبرداری عروسی", "فیلمبرداری سینمایی"],
+
       ["فرمالیته", "فیلمبرداری کلیپ فرمالیته"],
+
       ["تدوین", "تدوین حرفه‌ای و سینمایی"]
+
     ];
+
   }
+
 
   if (category === "هلی‌شات") {
+
     services = [
+
       ["هلی‌شات مراسم", "تصاویر هوایی حرفه‌ای"],
+
       ["هلی‌شات تبلیغاتی", "تصاویر هوایی برای تبلیغات"]
+
     ];
+
   }
 
-  if (category === "FPV") {
-    services = [
-      ["FPV Wedding", "تصاویر خاص و سینمایی"],
-      ["FPV تبلیغاتی", "حرکت‌های سریع و حرفه‌ای"]
-    ];
-  }
 
   list.innerHTML = "";
 
+
   services.forEach(function(item) {
 
-    const div = document.createElement("div");
+    const div =
+      document.createElement("div");
 
-    div.className = "service-item";
+
+    div.className =
+      "service-item";
+
 
     div.innerHTML =
-      "<strong>" + item[0] + "</strong>" +
-      "<span>" + item[1] + "</span>";
+      "<strong>" +
+      item[0] +
+      "</strong>" +
+
+      "<span>" +
+      item[1] +
+      "</span>";
+
 
     div.onclick = function() {
+
       closeModal();
+
       startBooking();
-      document.getElementById("service").value = item[0];
+
+      document.getElementById("service").value =
+        item[0];
+
     };
+
 
     list.appendChild(div);
 
   });
 
+
   modal.style.display = "flex";
+
 }
 
-function closeModal() {
-  document.getElementById("modal").style.display = "none";
+
+/* پکیج‌ها */
+
+function openPackages() {
+
+  const modal =
+    document.getElementById("modal");
+
+  const title =
+    document.getElementById("modalTitle");
+
+  const list =
+    document.getElementById("serviceList");
+
+
+  title.innerText =
+    "📦 پکیج‌های سون استودیو";
+
+
+  const packages = [
+
+    ["پکیج اقتصادی", "مناسب مراسم‌های ساده و جمع‌وجور"],
+
+    ["پکیج استاندارد", "پوشش کامل عکاسی و فیلمبرداری"],
+
+    ["پکیج حرفه‌ای", "پوشش کامل + هلی‌شات"],
+
+    ["پکیج VIP", "کامل‌ترین پکیج سون استودیو"]
+
+  ];
+
+
+  list.innerHTML = "";
+
+
+  packages.forEach(function(item) {
+
+    const div =
+      document.createElement("div");
+
+
+    div.className =
+      "service-item";
+
+
+    div.innerHTML =
+      "<strong>" +
+      item[0] +
+      "</strong>" +
+
+      "<span>" +
+      item[1] +
+      "</span>";
+
+
+    div.onclick = function() {
+
+      closeModal();
+
+      startBooking();
+
+      document.getElementById("service").value =
+        item[0];
+
+    };
+
+
+    list.appendChild(div);
+
+  });
+
+
+  modal.style.display =
+    "flex";
+
 }
+
+
+/* بستن */
+
+function closeModal() {
+
+  document.getElementById("modal")
+    .style.display = "none";
+
+}
+
+
+/* شروع رزرو */
 
 function startBooking() {
 
-  document.querySelector(".hero").style.display = "none";
-  document.querySelector(".section").style.display = "none";
-  document.querySelector(".reserve").style.display = "none";
+  document.querySelector(".hero")
+    .style.display = "none";
 
-  document.getElementById("booking").style.display = "block";
+  document.querySelector(".section")
+    .style.display = "none";
+
+  document.querySelector(".reserve")
+    .style.display = "none";
+
+  document.querySelector(".contact")
+    .style.display = "none";
+
+
+  document.getElementById("booking")
+    .style.display = "block";
+
 
   window.scrollTo(0,0);
+
 }
+
+
+/* بازگشت */
 
 function backHome() {
 
-  document.querySelector(".hero").style.display = "flex";
-  document.querySelector(".section").style.display = "block";
-  document.querySelector(".reserve").style.display = "block";
+  document.querySelector(".hero")
+    .style.display = "flex";
 
-  document.getElementById("booking").style.display = "none";
+  document.querySelector(".section")
+    .style.display = "block";
+
+  document.querySelector(".reserve")
+    .style.display = "block";
+
+  document.querySelector(".contact")
+    .style.display = "block";
+
+
+  document.getElementById("booking")
+    .style.display = "none";
+
 
   window.scrollTo(0,0);
+
 }
+
+
+/* ثبت رزرو */
 
 function submitBooking() {
 
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-  const date = document.getElementById("date").value;
-  const service = document.getElementById("service").value;
+  const name =
+    document.getElementById("name").value;
+
+  const phone =
+    document.getElementById("phone").value;
+
+  const date =
+    document.getElementById("date").value;
+
+  const service =
+    document.getElementById("service").value;
+
 
   if (!name || !phone || !date || !service) {
 
-    alert("لطفاً همه اطلاعات را کامل کنید");
+    alert(
+      "لطفاً همه اطلاعات را کامل کنید"
+    );
 
     return;
+
   }
 
+
   alert(
+
     "درخواست رزرو شما ثبت شد\n\n" +
-    "نام: " + name +
-    "\nخدمت: " + service +
-    "\nتاریخ: " + date
+
+    "نام: " +
+    name +
+
+    "\nخدمت: " +
+    service +
+
+    "\nتاریخ: " +
+    date
+
   );
 
 }
+
+
+/* آدرس */
+
+function openLocation() {
+
+  alert(
+    "آدرس استودیو را بعداً اینجا قرار می‌دهیم"
+  );
+
+}
+
 
 </script>
 
