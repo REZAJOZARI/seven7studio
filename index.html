@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Seven7Studio</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b0b0b;
+      color: #fff;
+    }
+
+    .app {
+      min-height: 100vh;
+      max-width: 600px;
+      margin: auto;
+      background: #0b0b0b;
+    }
+
+    .hero {
+      height: 62vh;
+      min-height: 480px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 30px 22px;
+      overflow: hidden;
+      background:
+        linear-gradient(to top, #0b0b0b 0%, transparent 65%),
+        url("https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=85")
+        center/cover;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #c8c8c8;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .intro {
+      margin-top: 12px;
+      color: #d5d5d5;
+      font-size: 13px;
+      line-height: 2;
+    }
+
+    .section {
+      padding: 28px 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin-bottom: 18px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card {
+      background: #151515;
+      border: 1px solid #252525;
+      border-radius: 14px;
+      padding: 18px 14px;
+      min-height: 125px;
+    }
+
+    .card h3 {
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #999;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .reserve {
+      margin: 10px 20px 30px;
+      padding: 20px;
+      border-radius: 16px;
+      background: #fff;
+      color: #000;
+      text-align: center;
+    }
+
+    .reserve h2 {
+      font-size: 19px;
+      margin-bottom: 8px;
+    }
+
+    .reserve p {
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .reserve button {
+      border: none;
+      background: #000;
+      color: #fff;
+      padding: 13px 25px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .footer {
+      padding: 25px;
+      text-align: center;
+      color: #666;
+      font-size: 11px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <section class="hero">
+    <div class="hero-content">
+
+      <div class="brand">SEVEN7STUDIO</div>
+
+      <div class="subtitle">
+        PHOTOGRAPHY • FILMMAKING
+      </div>
+
+      <div class="intro">
+        ثبت آنلاین خدمات عکاسی و فیلمبرداری
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+
+    <h2 class="section-title">
+      خدمات ما
+    </h2>
+
+    <div class="cards">
+
+      <div class="card">
+        <h3>📸 عکاسی</h3>
+        <p>عکاسی حرفه‌ای عروسی، فرمالیته و تبلیغاتی</p>
+      </div>
+
+      <div class="card">
+        <h3>🎬 فیلمبرداری</h3>
+        <p>فیلمبرداری سینمایی و تدوین حرفه‌ای</p>
+      </div>
+
+      <div class="card">
+        <h3>🚁 هلی‌شات</h3>
+        <p>تصاویر هوایی حرفه‌ای با تجهیزات تخصصی</p>
+      </div>
+
+      <div class="card">
+        <h3>⚡ FPV</h3>
+        <p>تصاویر خاص و سینمایی با FPV</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="reserve">
+
+    <h2>
+      رزرو آنلاین
+    </h2>
+
+    <p>
+      تاریخ و خدمات موردنظر خود را انتخاب کنید
+    </p>
+
+    <button>
+      شروع رزرو
+    </button>
+
+  </section>
+
+  <div class="footer">
+    © Seven7Studio
+  </div>
+
+</div>
+
+</body>
+</html>
