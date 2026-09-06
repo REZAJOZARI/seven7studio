@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -422,6 +423,11 @@ button{
     cursor:pointer;
     font-size:11px;
     margin-top:5px;
+}
+
+.submit-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
 }
 
 /* ================= SUCCESS ================= */
@@ -1134,6 +1140,7 @@ button{
 
             <button
             class="submit-btn"
+            id="submitQuoteButton"
             onclick="submitQuote()">
 
                 ارسال درخواست استعلام
@@ -1167,6 +1174,8 @@ button{
 
 <script>
 
+/* ================= TELEGRAM ================= */
+
 const tg = window.Telegram && window.Telegram.WebApp
     ? window.Telegram.WebApp
     : null;
@@ -1182,6 +1191,12 @@ if(tg){
     }catch(e){}
 
 }
+
+
+/* ================= API ================= */
+
+const API_URL =
+    "https://seven7studio-api.rezajozari597660.workers.dev/";
 
 
 /* ================= DATE ================= */
@@ -1263,6 +1278,15 @@ function openQuote(packageName){
         .style.display = "none";
 
 
+    const submitButton =
+        document.getElementById("submitQuoteButton");
+
+    submitButton.disabled = false;
+
+    submitButton.textContent =
+        "ارسال درخواست استعلام";
+
+
     document.getElementById("quoteModal")
         .classList.add("show");
 
@@ -1271,7 +1295,7 @@ function openQuote(packageName){
 
 /* ================= SUBMIT ================= */
 
-function submitQuote(){
+async function submitQuote(){
 
     const name =
         document.getElementById("name").value.trim();
@@ -1290,6 +1314,17 @@ function submitQuote(){
 
     const description =
         document.getElementById("description").value.trim();
+
+
+    /* ================= VALIDATION ================= */
+
+    if(!selectedPackageName){
+
+        alert("لطفاً ابتدا یک پکیج را انتخاب کنید.");
+
+        return;
+
+    }
 
 
     if(!name){
@@ -1337,25 +1372,27 @@ function submitQuote(){
     }
 
 
+    /* ================= DATA ================= */
+
     const data = {
 
-        type:"quote_request",
+        type: "quote_request",
 
-        package:selectedPackageName,
+        package: selectedPackageName,
 
-        name:name,
+        name: name,
 
-        phone:phone,
+        phone: phone,
 
-        date:date,
+        date: date,
 
-        location:location,
+        location: location,
 
-        ceremony:ceremony,
+        ceremony: ceremony,
 
-        description:description,
+        description: description,
 
-        createdAt:new Date().toISOString()
+        createdAt: new Date().toISOString()
 
     };
 
@@ -1366,34 +1403,99 @@ function submitQuote(){
     );
 
 
-    /*
-    ==========================================
-    TELEGRAM MINI APP
-    ==========================================
-    */
+    /* ================= BUTTON ================= */
 
-    if(tg){
+    const submitButton =
+        document.getElementById("submitQuoteButton");
+
+
+    submitButton.disabled = true;
+
+    submitButton.textContent =
+        "در حال ارسال...";
+
+
+    /* ================= SEND TO CLOUDFLARE ================= */
+
+    try{
+
+        const response =
+            await fetch(
+                API_URL,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+
+                    body:JSON.stringify(data)
+                }
+            );
+
+
+        let result = {};
 
         try{
 
-            tg.sendData(
-                JSON.stringify(data)
-            );
+            result =
+                await response.json();
 
-        }catch(error){
+        }catch(e){
 
-            console.log(error);
+            result = {};
 
         }
 
+
+        /* ================= CHECK RESULT ================= */
+
+        if(
+            !response.ok ||
+            !result.success
+        ){
+
+            throw new Error(
+                result.error ||
+                "ارسال درخواست انجام نشد."
+            );
+
+        }
+
+
+        /* ================= SUCCESS ================= */
+
+        document.getElementById("quoteForm")
+            .style.display = "none";
+
+        document.getElementById("successBox")
+            .style.display = "block";
+
+
+        console.log(
+            "QUOTE SENT SUCCESSFULLY"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "QUOTE ERROR:",
+            error
+        );
+
+
+        alert(
+            "ارسال درخواست انجام نشد.\nلطفاً دوباره تلاش کنید."
+        );
+
+
+        submitButton.disabled = false;
+
+        submitButton.textContent =
+            "ارسال درخواست استعلام";
+
     }
-
-
-    document.getElementById("quoteForm")
-        .style.display = "none";
-
-    document.getElementById("successBox")
-        .style.display = "block";
 
 }
 
@@ -1430,13 +1532,6 @@ document.querySelectorAll(".modal")
 
 function goHome(){
 
-    /*
-    فعلاً چون صفحه پکیج‌ها
-    داخل index.html است،
-    بعداً این قسمت را به
-    صفحه اصلی وصل می‌کنیم.
-    */
-
     window.scrollTo({
         top:0,
         behavior:"smooth"
@@ -1448,3 +1543,4 @@ function goHome(){
 
 </body>
 </html>
+```
