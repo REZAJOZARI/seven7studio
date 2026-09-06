@@ -1,492 +1,2128 @@
-export default {
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-  async fetch(request, env) {
+  <title>Seven7Studio | سون استودیو</title>
+  <meta name="description" content="Seven7Studio | فیلم و عکس عروسی، عقد، فرمالیته و خدمات حرفه‌ای تصویربرداری" />
 
-    /*
-    ==========================================
-    CORS
-    ==========================================
-    */
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    const corsHeaders = {
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-      "Access-Control-Allow-Origin": "*",
+    :root {
+      --bg: #080808;
+      --card: #111111;
+      --card2: #151515;
+      --text: #f5f5f5;
+      --muted: #9b9b9b;
+      --gold: #d4af6a;
+      --gold2: #f0d18c;
+      --border: rgba(212,175,106,.22);
+      --green: #32d583;
+      --danger: #ff5d5d;
+    }
 
-      "Access-Control-Allow-Methods":
-        "GET, POST, OPTIONS",
+    html {
+      scroll-behavior: smooth;
+    }
 
-      "Access-Control-Allow-Headers":
-        "Content-Type",
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(212,175,106,.10), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      min-height: 100vh;
+    }
 
-      "Access-Control-Max-Age":
-        "86400"
+    button,
+    input,
+    textarea,
+    select {
+      font-family: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: auto;
+    }
+
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8,8,8,.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .nav {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-links a {
+      color: #bbb;
+      white-space: nowrap;
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 620px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: rgba(212,175,106,.08);
+      filter: blur(100px);
+      border-radius: 50%;
+      top: -250px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .hero-content {
+      position: relative;
+      width: 100%;
+    }
+
+    .brand-small {
+      color: var(--gold);
+      letter-spacing: 4px;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 9vw, 80px);
+      line-height: 1;
+      margin-bottom: 25px;
+      font-weight: 800;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: auto;
+      color: #aaa;
+      font-size: 15px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 35px;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      padding: 13px 22px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: .25s;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #090909;
+      border-color: var(--gold);
+      font-weight: bold;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold2);
+    }
+
+    /* SECTIONS */
+
+    section {
+      padding: 75px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title small {
+      color: var(--gold);
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+    }
+
+    .section-title h2 {
+      font-size: 30px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    /* PACKAGES */
+
+    .category-title {
+      margin: 35px 0 20px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .category-title::after {
+      content: "";
+      height: 1px;
+      background: rgba(255,255,255,.08);
+      flex: 1;
+    }
+
+    .packages {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .package {
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.01));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: .25s;
+    }
+
+    .package:hover {
+      transform: translateY(-4px);
+      border-color: var(--border);
+    }
+
+    .package.vip {
+      border-color: rgba(212,175,106,.5);
+      background:
+        linear-gradient(145deg, rgba(212,175,106,.10), rgba(255,255,255,.02));
+    }
+
+    .package-badge {
+      display: inline-block;
+      color: var(--gold);
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+
+    .package h3 {
+      font-size: 21px;
+      margin-bottom: 15px;
+    }
+
+    .package ul {
+      list-style: none;
+      color: #c3c3c3;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .package li {
+      padding: 5px 0;
+    }
+
+    .package li::before {
+      content: "✓";
+      color: var(--gold);
+      margin-left: 8px;
+    }
+
+    .gift {
+      background: rgba(212,175,106,.08);
+      border: 1px solid rgba(212,175,106,.18);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 12px;
+      color: var(--gold2);
+      margin-bottom: 15px;
+    }
+
+    .package-button {
+      width: 100%;
+    }
+
+    /* SERVICES */
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .service {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.07);
+      padding: 22px 15px;
+      border-radius: 16px;
+      text-align: center;
+      transition: .25s;
+    }
+
+    .service:hover {
+      border-color: var(--border);
+      transform: translateY(-3px);
+    }
+
+    .service-icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .service h3 {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .service p {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* PORTFOLIO */
+
+    .portfolio-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 25px;
+    }
+
+    .portfolio-tab {
+      border: 1px solid rgba(255,255,255,.08);
+      background: transparent;
+      color: #aaa;
+      padding: 8px 15px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .portfolio-tab.active {
+      background: var(--gold);
+      color: #111;
+      border-color: var(--gold);
+    }
+
+    .portfolio {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .portfolio-item {
+      min-height: 220px;
+      border-radius: 16px;
+      border: 1px dashed rgba(212,175,106,.25);
+      background:
+        linear-gradient(145deg, #141414, #0d0d0d);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #777;
+      padding: 20px;
+    }
+
+    .portfolio-item strong {
+      display: block;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+
+    /* BOOKING */
+
+    .booking-box {
+      background:
+        linear-gradient(145deg, rgba(212,175,106,.10), rgba(255,255,255,.02));
+      border: 1px solid var(--border);
+      border-radius: 25px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .booking-box p {
+      color: #aaa;
+      max-width: 650px;
+      margin: 10px auto 25px;
+      font-size: 13px;
+    }
+
+    /* CONTACT */
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .contact-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.07);
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .contact-card .icon {
+      font-size: 27px;
+      margin-bottom: 7px;
+    }
+
+    .contact-card span {
+      display: block;
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding: 30px 0;
+      text-align: center;
+      color: #666;
+      font-size: 12px;
+    }
+
+    footer strong {
+      color: var(--gold);
+    }
+
+    /* MODAL */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.78);
+      backdrop-filter: blur(10px);
+      z-index: 500;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 15px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(600px, 100%);
+      max-height: 92vh;
+      overflow-y: auto;
+      background: #101010;
+      border: 1px solid var(--border);
+      border-radius: 25px 25px 10px 10px;
+      padding: 25px;
+      animation: modalIn .25s ease;
+    }
+
+    @keyframes modalIn {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+      font-size: 20px;
+    }
+
+    .close {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.1);
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .selected-package {
+      background: rgba(212,175,106,.08);
+      border: 1px solid rgba(212,175,106,.18);
+      color: var(--gold2);
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      font-size: 13px;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      display: block;
+      color: #bbb;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      background: #171717;
+      border: 1px solid rgba(255,255,255,.09);
+      color: white;
+      padding: 13px;
+      border-radius: 11px;
+      outline: none;
+      font-size: 13px;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--gold);
+    }
+
+    .field textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    .loading {
+      opacity: .6;
+      pointer-events: none;
+    }
+
+    /* SUCCESS */
+
+    .success {
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .success-icon {
+      font-size: 55px;
+      margin-bottom: 10px;
+    }
+
+    .success h3 {
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+
+    .success p {
+      color: white;
+      font-size: 13px;
+    }
+
+    .error-box {
+      display: none;
+      background: rgba(255,93,93,.1);
+      border: 1px solid rgba(255,93,93,.25);
+      color: #ff9b9b;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+      .packages {
+        grid-template-columns: 1fr;
+      }
+
+      .services {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .portfolio {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero {
+        min-height: 560px;
+      }
+
+      .booking-box {
+        padding: 25px 18px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .nav {
+        height: 60px;
+      }
+
+      .logo {
+        font-size: 16px;
+      }
+
+      .nav-links {
+        gap: 12px;
+      }
+
+      .nav-links a {
+        font-size: 11px;
+      }
+
+      section {
+        padding: 55px 0;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .portfolio {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .portfolio-item {
+        min-height: 160px;
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+
+    <a href="#home" class="logo">
+      SEVEN<span>7</span>STUDIO
+    </a>
+
+    <nav class="nav-links">
+      <a href="#packages">پکیج‌ها</a>
+      <a href="#services">خدمات</a>
+      <a href="#portfolio">نمونه‌کار</a>
+      <a href="#booking">رزرو</a>
+      <a href="#contact">تماس</a>
+    </nav>
+
+  </div>
+</header>
+
+
+<main>
+
+  <!-- HERO -->
+
+  <section class="hero" id="home">
+
+    <div class="container hero-content">
+
+      <div class="brand-small">
+        SEVEN7STUDIO
+      </div>
+
+      <h1>
+        لحظه‌هات رو<br>
+        <span>ماندگار کن</span>
+      </h1>
+
+      <p>
+        فیلم و عکس حرفه‌ای عقد و عروسی،
+        فرمالیته، آتلیه و تولید محتوای تصویری
+        با نگاه مدرن و سینمایی
+      </p>
+
+      <div class="hero-buttons">
+
+        <button
+          class="btn btn-primary"
+          onclick="openRequest('booking','رزرو آنلاین')">
+          📅 شروع رزرو آنلاین
+        </button>
+
+        <a
+          href="#packages"
+          class="btn">
+          💎 مشاهده پکیج‌ها
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PACKAGES -->
+
+  <section id="packages">
+
+    <div class="container">
+
+      <div class="section-title">
+        <small>SEVEN7STUDIO</small>
+        <h2>پکیج‌ها</h2>
+        <p>پکیج مناسب خودت رو انتخاب کن و برای استعلام قیمت درخواست بده</p>
+      </div>
+
+      <h3 class="category-title">
+        💍 پکیج‌های عقد
+      </h3>
+
+      <div
+        class="packages"
+        id="contractPackages">
+      </div>
+
+
+      <h3 class="category-title">
+        👰 پکیج‌های عروسی
+      </h3>
+
+      <div
+        class="packages"
+        id="weddingPackages">
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- SERVICES -->
+
+  <section id="services">
+
+    <div class="container">
+
+      <div class="section-title">
+        <small>OUR SERVICES</small>
+        <h2>خدمات Seven7Studio</h2>
+        <p>همه چیز برای ساخت یک پروژه تصویری حرفه‌ای</p>
+      </div>
+
+      <div class="services" id="servicesGrid"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PORTFOLIO -->
+
+  <section id="portfolio">
+
+    <div class="container">
+
+      <div class="section-title">
+        <small>PORTFOLIO</small>
+        <h2>نمونه‌کارها</h2>
+        <p>نمونه‌کارهای واقعی شما بعداً در این بخش قرار می‌گیرند</p>
+      </div>
+
+      <div class="portfolio-tabs">
+
+        <button
+          class="portfolio-tab active"
+          data-filter="all">
+          همه
+        </button>
+
+        <button
+          class="portfolio-tab"
+          data-filter="wedding">
+          عروسی
+        </button>
+
+        <button
+          class="portfolio-tab"
+          data-filter="contract">
+          عقد
+        </button>
+
+        <button
+          class="portfolio-tab"
+          data-filter="formalite">
+          فرمالیته
+        </button>
+
+        <button
+          class="portfolio-tab"
+          data-filter="studio">
+          آتلیه
+        </button>
+
+        <button
+          class="portfolio-tab"
+          data-filter="clip">
+          کلیپ
+        </button>
+
+      </div>
+
+      <div class="portfolio" id="portfolioGrid"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- BOOKING -->
+
+  <section id="booking">
+
+    <div class="container">
+
+      <div class="booking-box">
+
+        <div style="font-size:45px;">📅</div>
+
+        <h2>
+          رزرو آنلاین
+        </h2>
+
+        <p>
+          تاریخ و زمان پیشنهادی خودت رو ثبت کن.
+          درخواستت برای مدیریت Seven7Studio ارسال میشه
+          و بعد از بررسی، هماهنگی نهایی با شما انجام خواهد شد.
+        </p>
+
+        <button
+          class="btn btn-primary"
+          onclick="openRequest('booking','رزرو آنلاین')">
+          شروع درخواست رزرو
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CONTACT -->
+
+  <section id="contact">
+
+    <div class="container">
+
+      <div class="section-title">
+        <small>CONTACT</small>
+        <h2>ارتباط با ما</h2>
+        <p>برای مشاوره و هماهنگی با Seven7Studio</p>
+      </div>
+
+      <div class="contact-grid">
+
+        <a
+          class="contact-card"
+          href="tel:09396685513">
+
+          <div class="icon">📱</div>
+
+          <strong>تماس</strong>
+
+          <span>
+            09396685513
+          </span>
+
+        </a>
+
+
+        <a
+          class="contact-card"
+          href="tel:09011191405">
+
+          <div class="icon">📞</div>
+
+          <strong>تماس</strong>
+
+          <span>
+            09011191405
+          </span>
+
+        </a>
+
+
+        <a
+          class="contact-card"
+          href="https://www.instagram.com/svn7team/"
+          target="_blank"
+          rel="noopener">
+
+          <div class="icon">📸</div>
+
+          <strong>اینستاگرام</strong>
+
+          <span>
+            @svn7team
+          </span>
+
+        </a>
+
+
+        <a
+          class="contact-card"
+          href="https://t.me/Seven7StudioBot"
+          target="_blank"
+          rel="noopener">
+
+          <div class="icon">✈️</div>
+
+          <strong>تلگرام</strong>
+
+          <span>
+            Seven7Studio
+          </span>
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="container">
+
+    © 2026
+    <strong>Seven7Studio</strong>
+    —
+    همه حقوق محفوظ است
+
+  </div>
+
+</footer>
+
+
+<!-- REQUEST MODAL -->
+
+<div
+  class="modal"
+  id="requestModal">
+
+  <div
+    class="modal-box"
+    onclick="event.stopPropagation()">
+
+    <div class="modal-header">
+
+      <h3 id="modalTitle">
+        درخواست استعلام
+      </h3>
+
+      <button
+        class="close"
+        onclick="closeModal()">
+        ×
+      </button>
+
+    </div>
+
+
+    <div
+      class="selected-package"
+      id="selectedPackage">
+    </div>
+
+
+    <div
+      class="error-box"
+      id="errorBox">
+    </div>
+
+
+    <div id="requestForm">
+
+      <div class="field">
+
+        <label>
+          نام و نام خانوادگی *
+        </label>
+
+        <input
+          id="name"
+          type="text"
+          placeholder="مثلاً رضا جوزری"
+          autocomplete="name" />
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          شماره تماس *
+        </label>
+
+        <input
+          id="phone"
+          type="tel"
+          inputmode="tel"
+          placeholder="مثلاً 09396685513"
+          autocomplete="tel" />
+
+      </div>
+
+
+      <div class="form-row">
+
+        <div class="field">
+
+          <label>
+            تاریخ مراسم *
+          </label>
+
+          <input
+            id="date"
+            type="date" />
+
+        </div>
+
+
+        <div
+          class="field"
+          id="timeField">
+
+          <label>
+            ساعت پیشنهادی
+          </label>
+
+          <select id="time">
+
+            <option value="">
+              انتخاب ساعت
+            </option>
+
+            <option value="09:00">
+              09:00
+            </option>
+
+            <option value="11:00">
+              11:00
+            </option>
+
+            <option value="13:00">
+              13:00
+            </option>
+
+            <option value="15:00">
+              15:00
+            </option>
+
+            <option value="17:00">
+              17:00
+            </option>
+
+            <option value="19:00">
+              19:00
+            </option>
+
+            <option value="21:00">
+              21:00
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="field"
+        id="bookingPackageField"
+        style="display:none;">
+
+        <label>
+          پکیج / سرویس موردنظر *
+        </label>
+
+        <select id="bookingPackage">
+          <option value="">
+            انتخاب کنید
+          </option>
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          محل برگزاری / شهر *
+        </label>
+
+        <input
+          id="location"
+          type="text"
+          placeholder="مثلاً بندرعباس" />
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          نوع مراسم *
+        </label>
+
+        <select id="ceremony">
+
+          <option value="">
+            انتخاب کنید
+          </option>
+
+          <option value="عقد">
+            عقد
+          </option>
+
+          <option value="عروسی">
+            عروسی
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          توضیحات شما
+        </label>
+
+        <textarea
+          id="description"
+          placeholder="اگر توضیح یا درخواست خاصی دارید اینجا بنویسید..."></textarea>
+
+      </div>
+
+
+      <button
+        class="btn btn-primary submit-btn"
+        id="submitBtn"
+        onclick="submitRequest()">
+
+        ارسال درخواست
+
+      </button>
+
+    </div>
+
+
+    <div
+      class="success"
+      id="successBox"
+      style="display:none;">
+
+      <div class="success-icon">
+        ✅
+      </div>
+
+      <h3>
+        🟢 درخواست شما با موفقیت ثبت شد ✓
+      </h3>
+
+      <p>
+        اطلاعات شما دریافت شد.
+        تیم Seven7Studio در اولین فرصت با شما تماس خواهد گرفت.
+      </p>
+
+      <button
+        class="btn"
+        style="margin-top:20px;"
+        onclick="closeModal()">
+        بستن
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  /* =========================================
+     TELEGRAM
+  ========================================= */
+
+  const tg = window.Telegram?.WebApp || null;
+
+  if (tg) {
+    tg.ready();
+    tg.expand();
+
+    if (tg.setHeaderColor) {
+      tg.setHeaderColor("#080808");
+    }
+
+    if (tg.setBackgroundColor) {
+      tg.setBackgroundColor("#080808");
+    }
+  }
+
+
+  /* =========================================
+     API
+  ========================================= */
+
+  const API_URL =
+    "https://seven7studio-api.rezajozari597660.workers.dev/";
+
+
+  /* =========================================
+     PACKAGES
+  ========================================= */
+
+  const packages = [
+
+    {
+      category: "contract",
+      name: "💍 عقد مینیمال",
+      badge: "MINIMAL",
+      features: [
+        "تک دوربین",
+        "1 دوربین فیلم‌برداری",
+        "گیمبال",
+        "کلیپ کوتاه عقد",
+        "ادیت و اصلاح رنگ",
+        "ورودی عکاسی آتلیه رایگان"
+      ],
+      gift: "🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو"
+    },
+
+    {
+      category: "contract",
+      name: "💍 عقد کلاسیک",
+      badge: "CLASSIC",
+      features: [
+        "دو دوربین",
+        "2 دوربین فیلم‌برداری",
+        "گیمبال",
+        "کلیپ عقد",
+        "ادیت حرفه‌ای",
+        "اصلاح رنگ",
+        "ورودی عکاسی آتلیه رایگان"
+      ],
+      gift: "🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو"
+    },
+
+    {
+      category: "contract",
+      name: "💎 عقد پریمیوم",
+      badge: "PREMIUM",
+      features: [
+        "دو دوربین",
+        "2 دوربین فیلم‌برداری",
+        "کرین",
+        "گیمبال",
+        "کلیپ ویژه عقد",
+        "ادیت حرفه‌ای",
+        "کالرگرید",
+        "ورودی عکاسی آتلیه رایگان"
+      ],
+      gift: "🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو"
+    },
+
+    {
+      category: "contract",
+      name: "👑 عقد VIP | فول",
+      badge: "VIP",
+      vip: true,
+      features: [
+        "دو دوربین",
+        "2 دوربین فیلم‌برداری",
+        "کرین",
+        "هلی‌شات",
+        "گیمبال",
+        "1 عکاس اختصاصی",
+        "کلیپ ویژه عقد",
+        "ادیت حرفه‌ای",
+        "کالرگرید",
+        "آلبوم ژورنال",
+        "ورودی عکاسی آتلیه رایگان"
+      ],
+      gift: "🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو"
+    },
+
+
+    {
+      category: "wedding",
+      name: "👰 عروسی مینیمال",
+      badge: "MINIMAL",
+      features: [
+        "تک دوربین",
+        "1 دوربین فیلم‌برداری",
+        "گیمبال",
+        "کلیپ روز عروسی",
+        "ادیت و اصلاح رنگ",
+        "ورودی عکاسی آتلیه رایگان"
+      ],
+      gift: "🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو"
+    },
+
+    {
+      category: "wedding",
+      name: "👰 عروسی کلاسیک",
+      badge: "CLASSIC",
+      features: [
+        "دو دوربین",
+        "2 دوربین فیلم‌برداری",
+        "گیمبال",
+        "کلیپ روز عروسی",
+        "ادیت حرفه‌ای",
+        "اصلاح رنگ",
+        "ورودی عکاسی آتلیه رایگان"
+      ],
+      gift: "🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو"
+    },
+
+    {
+      category: "wedding",
+      name: "💎 عروسی پریمیوم",
+      badge: "PREMIUM",
+      features: [
+        "سه دوربین",
+        "3 دوربین فیلم‌برداری",
+        "کرین",
+        "گیمبال",
+        "کلیپ روز عروسی",
+        "ادیت حرفه‌ای",
+        "اصلاح رنگ",
+        "ورودی عکاسی آتلیه رایگان"
+      ],
+      gift: "🎁 تخته‌شاسی ۳۰×۲۰ هدیه از طرف مدیریت استودیو"
+    },
+
+    {
+      category: "wedding",
+      name: "👑 عروسی VIP | فول",
+      badge: "VIP",
+      vip: true,
+      features: [
+        "2 دوربین فیلم‌برداری با کیفیت 4K",
+        "هلی‌شات",
+        "کرین با دوربین سونی",
+        "گیمبال",
+        "فرمالیته",
+        "کلیپ فرمالیته",
+        "کلیپ روز عروسی",
+        "بخش کلیپ ویدیو پروجکشن",
+        "تدوین کل پروژه",
+        "عکاسی آتلیه‌ای مدرن / باغ",
+        "عکاسی سرمجلس به صورت خانوادگی",
+        "آلبوم ژورنالی ۱۰ برگ، سایز ۴۰×۳۰",
+        "طراحی و عکاسی به سبک مدرن",
+        "۱۰ برگ چاپ عکس سرمجلس",
+        "کادر مجرب و حرفه‌ای",
+        "تحویل تمامی فایل‌ها با کیفیت اصلی",
+        "ورودی عکاسی آتلیه رایگان"
+      ],
+      gift: "🎁 تخته‌شاسی ۶۰×۴۰ هدیه از طرف مدیریت استودیو"
+    }
+
+  ];
+
+
+  /* =========================================
+     RENDER PACKAGES
+  ========================================= */
+
+  function renderPackages() {
+
+    const contractContainer =
+      document.getElementById("contractPackages");
+
+    const weddingContainer =
+      document.getElementById("weddingPackages");
+
+
+    contractContainer.innerHTML = "";
+
+    weddingContainer.innerHTML = "";
+
+
+    packages.forEach((pkg) => {
+
+      const card = document.createElement("div");
+
+      card.className =
+        "package" + (pkg.vip ? " vip" : "");
+
+
+      const features = pkg.features
+        .map(item => `<li>${escapeHtml(item)}</li>`)
+        .join("");
+
+
+      card.innerHTML = `
+
+        <div class="package-badge">
+          ${escapeHtml(pkg.badge)}
+        </div>
+
+        <h3>
+          ${escapeHtml(pkg.name)}
+        </h3>
+
+        <ul>
+          ${features}
+        </ul>
+
+        <div class="gift">
+          ${escapeHtml(pkg.gift)}
+        </div>
+
+        <button
+          class="btn btn-primary package-button"
+          onclick='openRequest("quote", ${JSON.stringify(pkg.name)})'>
+          استعلام قیمت
+        </button>
+
+      `;
+
+
+      if (pkg.category === "contract") {
+        contractContainer.appendChild(card);
+      } else {
+        weddingContainer.appendChild(card);
+      }
+
+    });
+
+  }
+
+
+  /* =========================================
+     SERVICES
+  ========================================= */
+
+  const services = [
+
+    ["🎥", "فیلم‌برداری", "تصویربرداری حرفه‌ای مراسم و پروژه‌ها"],
+
+    ["📸", "عکاسی", "عکاسی آتلیه، باغ و مراسم"],
+
+    ["🚁", "هلی‌شات", "تصاویر هوایی سینمایی"],
+
+    ["🎬", "فرمالیته", "ساخت کلیپ فرمالیته"],
+
+    ["🏗️", "کرین", "تصاویر حرفه‌ای با کرین"],
+
+    ["🎞️", "گیمبال", "حرکت‌های نرم و سینمایی"],
+
+    ["🎨", "کالرگرید", "اصلاح و گریدینگ حرفه‌ای رنگ"],
+
+    ["💻", "تدوین", "تدوین کامل پروژه‌های تصویری"]
+
+  ];
+
+
+  function renderServices() {
+
+    const grid =
+      document.getElementById("servicesGrid");
+
+    grid.innerHTML = "";
+
+    services.forEach(service => {
+
+      const div =
+        document.createElement("div");
+
+      div.className = "service";
+
+      div.innerHTML = `
+
+        <div class="service-icon">
+          ${service[0]}
+        </div>
+
+        <h3>
+          ${service[1]}
+        </h3>
+
+        <p>
+          ${service[2]}
+        </p>
+
+      `;
+
+      grid.appendChild(div);
+
+    });
+
+  }
+
+
+  /* =========================================
+     PORTFOLIO
+  ========================================= */
+
+  const portfolioItems = [
+
+    {
+      category: "wedding",
+      title: "نمونه‌کار عروسی",
+      text: "عکس یا ویدیو خودت را اینجا قرار بده"
+    },
+
+    {
+      category: "wedding",
+      title: "نمونه‌کار عروسی",
+      text: "عکس یا ویدیو خودت را اینجا قرار بده"
+    },
+
+    {
+      category: "contract",
+      title: "نمونه‌کار عقد",
+      text: "عکس یا ویدیو خودت را اینجا قرار بده"
+    },
+
+    {
+      category: "formalite",
+      title: "نمونه‌کار فرمالیته",
+      text: "عکس یا ویدیو خودت را اینجا قرار بده"
+    },
+
+    {
+      category: "studio",
+      title: "نمونه‌کار آتلیه",
+      text: "عکس یا ویدیو خودت را اینجا قرار بده"
+    },
+
+    {
+      category: "clip",
+      title: "نمونه‌کار کلیپ",
+      text: "عکس یا ویدیو خودت را اینجا قرار بده"
+    }
+
+  ];
+
+
+  function renderPortfolio(filter = "all") {
+
+    const grid =
+      document.getElementById("portfolioGrid");
+
+    grid.innerHTML = "";
+
+
+    portfolioItems
+      .filter(item =>
+        filter === "all" ||
+        item.category === filter
+      )
+      .forEach(item => {
+
+        const div =
+          document.createElement("div");
+
+        div.className = "portfolio-item";
+
+        div.innerHTML = `
+
+          <div>
+
+            <strong>
+              ${escapeHtml(item.title)}
+            </strong>
+
+            <span>
+              ${escapeHtml(item.text)}
+            </span>
+
+          </div>
+
+        `;
+
+        grid.appendChild(div);
+
+      });
+
+  }
+
+
+  document
+    .querySelectorAll(".portfolio-tab")
+    .forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        document
+          .querySelectorAll(".portfolio-tab")
+          .forEach(btn =>
+            btn.classList.remove("active")
+          );
+
+        button.classList.add("active");
+
+        renderPortfolio(
+          button.dataset.filter
+        );
+
+      });
+
+    });
+
+
+  /* =========================================
+     BOOKING PACKAGE SELECT
+  ========================================= */
+
+  function fillBookingPackages() {
+
+    const select =
+      document.getElementById("bookingPackage");
+
+    select.innerHTML = `
+      <option value="">
+        انتخاب کنید
+      </option>
+    `;
+
+    packages.forEach(pkg => {
+
+      const option =
+        document.createElement("option");
+
+      option.value = pkg.name;
+      option.textContent = pkg.name;
+
+      select.appendChild(option);
+
+    });
+
+    const other =
+      document.createElement("option");
+
+    other.value = "مشاوره و انتخاب پکیج";
+    other.textContent = "مشاوره و انتخاب پکیج";
+
+    select.appendChild(other);
+
+  }
+
+
+  /* =========================================
+     MODAL
+  ========================================= */
+
+  let requestType = "quote";
+  let selectedPackageName = "";
+
+
+  function openRequest(type, packageName) {
+
+    requestType = type;
+    selectedPackageName = packageName || "";
+
+
+    const modal =
+      document.getElementById("requestModal");
+
+    const title =
+      document.getElementById("modalTitle");
+
+    const selected =
+      document.getElementById("selectedPackage");
+
+    const packageField =
+      document.getElementById("bookingPackageField");
+
+    const timeField =
+      document.getElementById("timeField");
+
+
+    document.getElementById("errorBox").style.display =
+      "none";
+
+    document.getElementById("successBox").style.display =
+      "none";
+
+    document.getElementById("requestForm").style.display =
+      "block";
+
+
+    if (type === "quote") {
+
+      title.textContent =
+        "استعلام قیمت";
+
+      selected.textContent =
+        "👑 پکیج انتخاب‌شده: " + selectedPackageName;
+
+      selected.style.display = "block";
+
+      packageField.style.display = "none";
+
+      timeField.style.display = "none";
+
+    } else {
+
+      title.textContent =
+        "درخواست رزرو آنلاین";
+
+      selected.textContent =
+        "📅 درخواست رزرو آنلاین";
+
+      selected.style.display = "block";
+
+      packageField.style.display = "block";
+
+      timeField.style.display = "block";
+
+    }
+
+
+    modal.classList.add("show");
+
+    document.body.style.overflow = "hidden";
+
+    setTimeout(() => {
+      document.getElementById("name").focus();
+    }, 100);
+
+  }
+
+
+  function closeModal() {
+
+    document
+      .getElementById("requestModal")
+      .classList.remove("show");
+
+    document.body.style.overflow = "";
+
+    resetForm();
+
+  }
+
+
+  document
+    .getElementById("requestModal")
+    .addEventListener("click", function(e) {
+
+      if (e.target === this) {
+        closeModal();
+      }
+
+    });
+
+
+  document.addEventListener("keydown", function(e) {
+
+    if (e.key === "Escape") {
+      closeModal();
+    }
+
+  });
+
+
+  /* =========================================
+     FORM
+  ========================================= */
+
+  function normalizeDigits(value) {
+
+    return String(value || "")
+      .replace(/[۰-۹]/g, d =>
+        "۰۱۲۳۴۵۶۷۸۹".indexOf(d)
+      )
+      .replace(/[٠-٩]/g, d =>
+        "٠١٢٣٤٥٦٧٨٩".indexOf(d)
+      );
+
+  }
+
+
+  function escapeHtml(value) {
+
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function showError(message) {
+
+    const box =
+      document.getElementById("errorBox");
+
+    box.textContent = message;
+
+    box.style.display = "block";
+
+  }
+
+
+  function resetForm() {
+
+    document.getElementById("requestForm").style.display =
+      "block";
+
+    document.getElementById("successBox").style.display =
+      "none";
+
+    document.getElementById("errorBox").style.display =
+      "none";
+
+    document.getElementById("submitBtn").classList.remove(
+      "loading"
+    );
+
+    document.getElementById("submitBtn").disabled =
+      false;
+
+  }
+
+
+  async function submitRequest() {
+
+    const submitBtn =
+      document.getElementById("submitBtn");
+
+
+    const name =
+      document.getElementById("name").value.trim();
+
+
+    const phone =
+      normalizeDigits(
+        document.getElementById("phone").value.trim()
+      );
+
+
+    const date =
+      document.getElementById("date").value;
+
+
+    const location =
+      document.getElementById("location").value.trim();
+
+
+    const ceremony =
+      document.getElementById("ceremony").value;
+
+
+    const description =
+      document.getElementById("description").value.trim();
+
+
+    const time =
+      document.getElementById("time").value;
+
+
+    const bookingPackage =
+      document.getElementById("bookingPackage").value;
+
+
+    /* VALIDATION */
+
+    if (!name) {
+      showError("لطفاً نام و نام خانوادگی را وارد کنید.");
+      return;
+    }
+
+
+    if (!phone) {
+      showError("لطفاً شماره تماس را وارد کنید.");
+      return;
+    }
+
+
+    const cleanPhone =
+      phone.replace(/\s|-/g, "");
+
+
+    if (!/^0?9\d{9}$/.test(cleanPhone)) {
+      showError("شماره تماس واردشده صحیح نیست.");
+      return;
+    }
+
+
+    if (!date) {
+      showError("لطفاً تاریخ مراسم را انتخاب کنید.");
+      return;
+    }
+
+
+    if (!location) {
+      showError("لطفاً محل برگزاری یا شهر را وارد کنید.");
+      return;
+    }
+
+
+    if (!ceremony) {
+      showError("لطفاً نوع مراسم را انتخاب کنید.");
+      return;
+    }
+
+
+    if (requestType === "booking" && !bookingPackage) {
+      showError("لطفاً پکیج یا سرویس موردنظر را انتخاب کنید.");
+      return;
+    }
+
+
+    /* SEND */
+
+    submitBtn.classList.add("loading");
+    submitBtn.disabled = true;
+
+    document.getElementById("errorBox").style.display =
+      "none";
+
+
+    const finalPackage =
+      requestType === "quote"
+        ? selectedPackageName
+        : bookingPackage;
+
+
+    const payload = {
+
+      type:
+        requestType === "booking"
+          ? "booking_request"
+          : "quote_request",
+
+      package:
+        finalPackage,
+
+      name:
+        name,
+
+      phone:
+        cleanPhone,
+
+      date:
+        date,
+
+      time:
+        time || "ثبت نشده",
+
+      location:
+        location,
+
+      ceremony:
+        ceremony,
+
+      description:
+        description || "بدون توضیحات"
 
     };
 
 
-    /*
-    ==========================================
-    OPTIONS
-    ==========================================
-    */
-
-    if (request.method === "OPTIONS") {
-
-      return new Response(null, {
-
-        status: 204,
-
-        headers: corsHeaders
-
-      });
-
-    }
-
-
-    /*
-    ==========================================
-    GET TEST
-    ==========================================
-    */
-
-    if (request.method === "GET") {
-
-      return new Response(
-
-        JSON.stringify({
-
-          success: true,
-
-          service:
-            "Seven7Studio API",
-
-          status:
-            "running"
-
-        }),
-
-        {
-
-          status: 200,
-
-          headers: {
-
-            ...corsHeaders,
-
-            "Content-Type":
-              "application/json; charset=UTF-8"
-
-          }
-
-        }
-
-      );
-
-    }
-
-
-    /*
-    ==========================================
-    ONLY POST
-    ==========================================
-    */
-
-    if (request.method !== "POST") {
-
-      return new Response(
-
-        JSON.stringify({
-
-          success: false,
-
-          error:
-            "Method Not Allowed"
-
-        }),
-
-        {
-
-          status: 405,
-
-          headers: {
-
-            ...corsHeaders,
-
-            "Content-Type":
-              "application/json; charset=UTF-8"
-
-          }
-
-        }
-
-      );
-
-    }
-
-
-    /*
-    ==========================================
-    MAIN
-    ==========================================
-    */
-
     try {
 
-      /*
-      ----------------------------------------
-      CHECK SECRETS
-      ----------------------------------------
-      */
+      const response =
+        await fetch(API_URL, {
 
-      if (!env.BOT_TOKEN) {
-
-        throw new Error(
-          "BOT_TOKEN تنظیم نشده است."
-        );
-
-      }
-
-
-      if (!env.ADMIN_CHAT_ID) {
-
-        throw new Error(
-          "ADMIN_CHAT_ID تنظیم نشده است."
-        );
-
-      }
-
-
-      /*
-      ----------------------------------------
-      READ JSON
-      ----------------------------------------
-      */
-
-      const data =
-        await request.json();
-
-
-      /*
-      ----------------------------------------
-      REQUEST TYPE
-      ----------------------------------------
-      */
-
-      const type =
-        String(
-          data.type ||
-          "quote_request"
-        );
-
-
-      /*
-      ----------------------------------------
-      DATA
-      ----------------------------------------
-      */
-
-      const packageName =
-        String(
-          data.package ||
-          "ثبت نشده"
-        ).slice(0, 300);
-
-
-      const name =
-        String(
-          data.name ||
-          "ثبت نشده"
-        ).slice(0, 150);
-
-
-      const phone =
-        String(
-          data.phone ||
-          "ثبت نشده"
-        ).slice(0, 50);
-
-
-      const date =
-        String(
-          data.date ||
-          "ثبت نشده"
-        ).slice(0, 50);
-
-
-      const time =
-        String(
-          data.time ||
-          "ثبت نشده"
-        ).slice(0, 50);
-
-
-      const location =
-        String(
-          data.location ||
-          "ثبت نشده"
-        ).slice(0, 200);
-
-
-      const ceremony =
-        String(
-          data.ceremony ||
-          "ثبت نشده"
-        ).slice(0, 100);
-
-
-      const description =
-        String(
-          data.description ||
-          "بدون توضیحات"
-        ).slice(0, 1000);
-
-
-      /*
-      ----------------------------------------
-      TITLE
-      ----------------------------------------
-      */
-
-      let title =
-        "🔔 استعلام قیمت جدید";
-
-
-      if (type === "booking_request") {
-
-        title =
-          "📅 درخواست رزرو جدید";
-
-      }
-
-
-      /*
-      ----------------------------------------
-      TELEGRAM MESSAGE
-      ----------------------------------------
-      */
-
-      const message =
-
-`${title}
-
-👑 پکیج:
-${packageName}
-
-👤 نام:
-${name}
-
-📱 تماس:
-${phone}
-
-📅 تاریخ:
-${date}
-
-⏰ ساعت پیشنهادی:
-${time}
-
-📍 محل:
-${location}
-
-💍 نوع مراسم:
-${ceremony}
-
-📝 توضیحات:
-${description}`;
-
-
-      /*
-      ----------------------------------------
-      TELEGRAM API
-      ----------------------------------------
-      */
-
-      const telegramURL =
-
-        `https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage`;
-
-
-      const telegramResponse =
-
-        await fetch(
-
-          telegramURL,
-
-          {
-
-            method: "POST",
-
-            headers: {
-
-              "Content-Type":
-                "application/json"
-
-            },
-
-            body:
-
-              JSON.stringify({
-
-                chat_id:
-                  env.ADMIN_CHAT_ID,
-
-                text:
-                  message,
-
-                disable_web_page_preview:
-                  true
-
-              })
-
-          }
-
-        );
-
-
-      /*
-      ----------------------------------------
-      TELEGRAM RESPONSE
-      ----------------------------------------
-      */
-
-      let telegramResult;
-
-
-      try {
-
-        telegramResult =
-          await telegramResponse.json();
-
-      } catch (error) {
-
-        telegramResult = {
-
-          ok: false,
-
-          description:
-            "پاسخ نامعتبر از Telegram API"
-
-        };
-
-      }
-
-
-      /*
-      ----------------------------------------
-      TELEGRAM ERROR
-      ----------------------------------------
-      */
-
-      if (
-        !telegramResponse.ok ||
-        !telegramResult.ok
-      ) {
-
-        return new Response(
-
-          JSON.stringify({
-
-            success: false,
-
-            error:
-              telegramResult.description ||
-              "Telegram API error"
-
-          }),
-
-          {
-
-            status: 500,
-
-            headers: {
-
-              ...corsHeaders,
-
-              "Content-Type":
-                "application/json; charset=UTF-8"
-
-            }
-
-          }
-
-        );
-
-      }
-
-
-      /*
-      ----------------------------------------
-      SUCCESS
-      ----------------------------------------
-      */
-
-      return new Response(
-
-        JSON.stringify({
-
-          success: true,
-
-          message:
-            "Request sent successfully"
-
-        }),
-
-        {
-
-          status: 200,
+          method: "POST",
 
           headers: {
+            "Content-Type": "application/json"
+          },
 
-            ...corsHeaders,
+          body:
+            JSON.stringify(payload)
 
-            "Content-Type":
-              "application/json; charset=UTF-8"
+        });
 
-          }
 
-        }
+      const result =
+        await response.json();
 
-      );
+
+      if (!response.ok || !result.success) {
+
+        throw new Error(
+          result.error ||
+          "ارسال درخواست انجام نشد."
+        );
+
+      }
+
+
+      document.getElementById("requestForm").style.display =
+        "none";
+
+      document.getElementById("successBox").style.display =
+        "block";
 
 
     } catch (error) {
 
-      /*
-      ========================================
-      SERVER ERROR
-      ========================================
-      */
+      console.error(error);
 
-      return new Response(
-
-        JSON.stringify({
-
-          success: false,
-
-          error:
-            error.message ||
-            "Server error"
-
-        }),
-
-        {
-
-          status: 500,
-
-          headers: {
-
-            ...corsHeaders,
-
-            "Content-Type":
-              "application/json; charset=UTF-8"
-
-          }
-
-        }
-
+      showError(
+        "ارسال درخواست انجام نشد. لطفاً دوباره تلاش کنید."
       );
+
+      submitBtn.classList.remove("loading");
+
+      submitBtn.disabled = false;
 
     }
 
   }
 
-};
+
+  /* =========================================
+     DATE
+  ========================================= */
+
+  function setMinDate() {
+
+    const dateInput =
+      document.getElementById("date");
+
+    const today =
+      new Date();
+
+    const year =
+      today.getFullYear();
+
+    const month =
+      String(today.getMonth() + 1)
+        .padStart(2, "0");
+
+    const day =
+      String(today.getDate())
+        .padStart(2, "0");
+
+    dateInput.min =
+      `${year}-${month}-${day}`;
+
+  }
+
+
+  /* =========================================
+     INIT
+  ========================================= */
+
+  renderPackages();
+
+  renderServices();
+
+  renderPortfolio();
+
+  fillBookingPackages();
+
+  setMinDate();
+
+</script>
+
+</body>
+</html>
