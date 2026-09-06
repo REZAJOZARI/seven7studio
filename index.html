@@ -50,7 +50,6 @@
       font-weight: 700;
       letter-spacing: 3px;
       direction: ltr;
-      text-align: right;
     }
 
     .subtitle {
@@ -59,7 +58,6 @@
       letter-spacing: 3px;
       color: #c8c8c8;
       direction: ltr;
-      text-align: right;
     }
 
     .intro {
@@ -90,6 +88,13 @@
       border-radius: 14px;
       padding: 18px 14px;
       min-height: 125px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: #555;
     }
 
     .card h3 {
@@ -133,6 +138,98 @@
       font-size: 13px;
     }
 
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 100;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 600px;
+      background: #151515;
+      border-radius: 22px 22px 0 0;
+      padding: 25px 20px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-box h2 {
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+
+    .service-item {
+      background: #202020;
+      border: 1px solid #303030;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    .service-item strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .service-item span {
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    .close {
+      width: 100%;
+      margin-top: 10px;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    .booking {
+      display: none;
+      padding: 25px 20px 40px;
+    }
+
+    .booking h2 {
+      margin-bottom: 20px;
+    }
+
+    .input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      background: #151515;
+      color: white;
+      font-size: 14px;
+    }
+
+    .booking button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: white;
+      color: black;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .back {
+      background: #222 !important;
+      color: white !important;
+      margin-top: 10px;
+    }
+
     .footer {
       padding: 25px;
       text-align: center;
@@ -148,7 +245,6 @@
 
   <section class="hero">
     <div class="hero-content">
-
       <div class="brand">SEVEN7STUDIO</div>
 
       <div class="subtitle">
@@ -158,7 +254,6 @@
       <div class="intro">
         ثبت آنلاین خدمات عکاسی و فیلمبرداری
       </div>
-
     </div>
   </section>
 
@@ -170,22 +265,22 @@
 
     <div class="cards">
 
-      <div class="card">
+      <div class="card" onclick="openServices('عکاسی')">
         <h3>📸 عکاسی</h3>
         <p>عکاسی حرفه‌ای عروسی، فرمالیته و تبلیغاتی</p>
       </div>
 
-      <div class="card">
+      <div class="card" onclick="openServices('فیلمبرداری')">
         <h3>🎬 فیلمبرداری</h3>
         <p>فیلمبرداری سینمایی و تدوین حرفه‌ای</p>
       </div>
 
-      <div class="card">
+      <div class="card" onclick="openServices('هلی‌شات')">
         <h3>🚁 هلی‌شات</h3>
         <p>تصاویر هوایی حرفه‌ای با تجهیزات تخصصی</p>
       </div>
 
-      <div class="card">
+      <div class="card" onclick="openServices('FPV')">
         <h3>⚡ FPV</h3>
         <p>تصاویر خاص و سینمایی با FPV</p>
       </div>
@@ -204,8 +299,36 @@
       تاریخ و خدمات موردنظر خود را انتخاب کنید
     </p>
 
-    <button>
+    <button onclick="startBooking()">
       شروع رزرو
+    </button>
+
+  </section>
+
+  <section class="booking" id="booking">
+
+    <h2>📅 ثبت رزرو</h2>
+
+    <input class="input" id="name" type="text" placeholder="نام و نام خانوادگی">
+
+    <input class="input" id="phone" type="tel" placeholder="شماره تماس">
+
+    <input class="input" id="date" type="date">
+
+    <select class="input" id="service">
+      <option value="">انتخاب خدمت</option>
+      <option>عکاسی</option>
+      <option>فیلمبرداری</option>
+      <option>هلی‌شات</option>
+      <option>FPV</option>
+    </select>
+
+    <button onclick="submitBooking()">
+      ادامه رزرو
+    </button>
+
+    <button class="back" onclick="backHome()">
+      بازگشت
     </button>
 
   </section>
@@ -215,6 +338,140 @@
   </div>
 
 </div>
+
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <h2 id="modalTitle">خدمات</h2>
+
+    <div id="serviceList"></div>
+
+    <button class="close" onclick="closeModal()">
+      بستن
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+function openServices(category) {
+
+  const modal = document.getElementById("modal");
+  const title = document.getElementById("modalTitle");
+  const list = document.getElementById("serviceList");
+
+  title.innerText = category;
+
+  let services = [];
+
+  if (category === "عکاسی") {
+    services = [
+      ["عکاسی عروسی", "پوشش کامل مراسم"],
+      ["عکاسی فرمالیته", "عکاسی در لوکیشن انتخابی"],
+      ["عکاسی تبلیغاتی", "مناسب برندها و کسب‌وکارها"]
+    ];
+  }
+
+  if (category === "فیلمبرداری") {
+    services = [
+      ["فیلمبرداری عروسی", "فیلمبرداری سینمایی"],
+      ["فرمالیته", "فیلمبرداری کلیپ فرمالیته"],
+      ["تدوین", "تدوین حرفه‌ای و سینمایی"]
+    ];
+  }
+
+  if (category === "هلی‌شات") {
+    services = [
+      ["هلی‌شات مراسم", "تصاویر هوایی حرفه‌ای"],
+      ["هلی‌شات تبلیغاتی", "تصاویر هوایی برای تبلیغات"]
+    ];
+  }
+
+  if (category === "FPV") {
+    services = [
+      ["FPV Wedding", "تصاویر خاص و سینمایی"],
+      ["FPV تبلیغاتی", "حرکت‌های سریع و حرفه‌ای"]
+    ];
+  }
+
+  list.innerHTML = "";
+
+  services.forEach(function(item) {
+
+    const div = document.createElement("div");
+
+    div.className = "service-item";
+
+    div.innerHTML =
+      "<strong>" + item[0] + "</strong>" +
+      "<span>" + item[1] + "</span>";
+
+    div.onclick = function() {
+      closeModal();
+      startBooking();
+      document.getElementById("service").value = item[0];
+    };
+
+    list.appendChild(div);
+
+  });
+
+  modal.style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+function startBooking() {
+
+  document.querySelector(".hero").style.display = "none";
+  document.querySelector(".section").style.display = "none";
+  document.querySelector(".reserve").style.display = "none";
+
+  document.getElementById("booking").style.display = "block";
+
+  window.scrollTo(0,0);
+}
+
+function backHome() {
+
+  document.querySelector(".hero").style.display = "flex";
+  document.querySelector(".section").style.display = "block";
+  document.querySelector(".reserve").style.display = "block";
+
+  document.getElementById("booking").style.display = "none";
+
+  window.scrollTo(0,0);
+}
+
+function submitBooking() {
+
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const date = document.getElementById("date").value;
+  const service = document.getElementById("service").value;
+
+  if (!name || !phone || !date || !service) {
+
+    alert("لطفاً همه اطلاعات را کامل کنید");
+
+    return;
+  }
+
+  alert(
+    "درخواست رزرو شما ثبت شد\n\n" +
+    "نام: " + name +
+    "\nخدمت: " + service +
+    "\nتاریخ: " + date
+  );
+
+}
+
+</script>
 
 </body>
 </html>
